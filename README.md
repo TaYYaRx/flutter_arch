@@ -20,34 +20,6 @@ Service    → Kurallar / İş mantığı
 Repository → DB işlemleri burada iş kuralı yok sadece kaynakla konuşur.
 
 lib/
-├── core/
-│   ├── database/
-│   │   └── database_service.dart
-│   ├── network/
-│   │   ├── api_client.dart
-│   │   └── api_endpoints.dart
-│   └── constants/
-├── features/
-│   └── [feature_name]/
-│       ├── data/
-│       │   ├── models/
-│       │   │   ├── dto/          # API'den gelen modeller
-│       │   │   └── entity/       # Local DB modelleri
-│       │   ├── datasources/
-│       │   │   ├── remote_datasource.dart
-│       │   │   └── local_datasource.dart
-│       │   └── repositories/
-│       │       └── repository_impl.dart
-│       ├── domain/
-│       │   ├── entities/
-│       │   └── repositories/
-│       └── presentation/
-│           ├── providers/
-│           ├── screens/
-│           └── widgets/
-└── main.dart
-
-lib/
 ├── data/
 │   ├── models/           # JSON-Object dönüşüm sınıfları
 │   ├── repositories/     # UI ile Veri kaynağı arasındaki köprü
