@@ -1,25 +1,25 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'proje_async_.dart';
+part of 'hive_service.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$projeAsyncHash() => r'bbc078e3047d24212039fa5e7d36057e36e8c098';
+String _$hiveServiceHash() => r'b58ff00aad79bce5537410d2d0b4e14b14c0538c';
 
-/// See also [ProjeAsync].
-@ProviderFor(ProjeAsync)
-final projeAsyncProvider =
-    AutoDisposeAsyncNotifierProvider<ProjeAsync, List<Proje>>.internal(
-  ProjeAsync.new,
-  name: r'projeAsyncProvider',
+/// See also [HiveService].
+@ProviderFor(HiveService)
+final hiveServiceProvider =
+    AutoDisposeAsyncNotifierProvider<HiveService, List>.internal(
+  HiveService.new,
+  name: r'hiveServiceProvider',
   debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$projeAsyncHash,
+      const bool.fromEnvironment('dart.vm.product') ? null : _$hiveServiceHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef _$ProjeAsync = AutoDisposeAsyncNotifier<List<Proje>>;
+typedef _$HiveService = AutoDisposeAsyncNotifier<List>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_arch/data/locator/locator.dart';
-import 'package:flutter_arch/data/services/hive_service.dart';
+import 'package:flutter_arch/data/services/hive_box_service.dart';
 import 'package:flutter_arch/ui/screens/home_screen.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   setupLocator(); //Get.it kayıt
-  await HiveService.init();
+  await HiveBoxService.init();
 
   runApp(const ProviderScope(child: MyApp()));
 }

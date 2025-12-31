@@ -2,7 +2,7 @@ import 'package:flutter_arch/data/models/projedetaymodel/projedetay_model.dart';
 import 'package:flutter_arch/data/models/projemodel/proje_model.dart';
 import 'package:hive_flutter/adapters.dart';
 
-class HiveService {
+class HiveBoxService {
   //Sadece Hive’ı başlatır ve box verir
   static const String _projeBox = 'proje_box';
   static Box<Proje>? _projeBoxInstance;
