@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_arch/data/locator/locator.dart';
+import 'package:flutter_arch/data/services/api_service.dart';
 import 'package:flutter_arch/logic/proje_provider/proje_aysnc/proje_async_.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -12,8 +14,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  void _incrementCounter() async {}
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,7 +26,13 @@ class _MyHomePageState extends State<MyHomePage> {
                 data: (data) {
                   return ListView.builder(
                     itemBuilder: (context, index) {
-                      return ListTile(title: Text(data[index].projeAdi));
+                      return GestureDetector(
+                        onLongPress: () {
+                          final updatedProje = data[index].copyWith(projeAdi: 'UPDATED-$index');
+                          ref.read(projeAsyncProvider.notifier).updateProje(updatedProje);
+                        },
+                        child: ListTile(title: Text(data[index].projeAdi)),
+                      );
                     },
                     itemCount: data.length,
                   );
@@ -40,7 +46,15 @@ class _MyHomePageState extends State<MyHomePage> {
               );
         },
       ),
-      floatingActionButton: FloatingActionButton(onPressed: _incrementCounter, tooltip: 'Increment', child: const Icon(Icons.add)),
+      floatingActionButton: Consumer(
+        builder: (context, ref, child) {
+          return FloatingActionButton(
+            onPressed: () => {locator<ApiService>().fetchProjeler()},
+            tooltip: 'Increment',
+            child: const Icon(Icons.add),
+          );
+        },
+      ),
     );
   }
 }

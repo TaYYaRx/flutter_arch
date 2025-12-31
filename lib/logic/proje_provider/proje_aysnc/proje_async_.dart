@@ -21,6 +21,7 @@ class ProjeAsync extends _$ProjeAsync {
   }
 
   Future<void> _fetchFromRemote() async {
+    print('Veriler getiriliyor');
     try {
       //Verileri Remote kaynaktan getir.
       final remoteData = await locator<ApiService>().fetchProjeler();
@@ -29,6 +30,7 @@ class ProjeAsync extends _$ProjeAsync {
       state = AsyncData(remoteData);
     } catch (e) {
       // Hata yönetimi (Opsiyonel: UI'a hata göstermek için)
+      print(e);
       state = AsyncError(e, StackTrace.current);
     }
   }
@@ -47,7 +49,7 @@ class ProjeAsync extends _$ProjeAsync {
 
     try {
       // 2. Adım: API'ye gönder
-      locator<ApiService>().updateProje(updatedProje);
+      locator<ApiService>().updateProje(updatedProje: updatedProje);
 
       // 3. Adım: Başarılıysa Local DB'yi de güncelle
       await ref.read(hiveServiceProvider.notifier).updateItemFromBox(updatedProje);
