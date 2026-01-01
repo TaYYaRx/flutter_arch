@@ -21,14 +21,21 @@ class ApiRepository {
       final uriupdateRoute = '$baseUrlProjeler/$id';
       final uri = Uri.parse(uriupdateRoute);
 
+      print('Updating project: $id');
+      print('Request body: $jsonBody');
+
       final response = await http.put(uri, headers: {'Content-Type': 'application/json'}, body: jsonBody);
+
+      print('Update response status: ${response.statusCode}');
+      print('Update response body: ${response.body}');
 
       if (response.statusCode == 200) {
         return;
       } else {
-        throw Exception('Failed to load API');
+        throw Exception('Update failed: ${response.statusCode} - ${response.body}');
       }
     } catch (e) {
+      print('Update error: $e');
       throw Exception('ERROR: Network connection error ::: $e');
     }
   }

@@ -36,10 +36,9 @@ class ProjeAsync extends _$ProjeAsync {
 
   Future<void> updateProje(Proje proje) async {
     final previousState = await future;
-    //final preProje = previousState.firstWhere((p) => p.id == proje.id);
 
-    // 1. Adım: Yerel State'i Hemen Güncelle (Veri remote tarafında hatasız olarak güncellendi varsayıyorum).
-    final updatedProje = proje.copyWith(projeAdi: proje.projeAdi);
+    // 1. Adım: Yerel State'i Hemen Güncelle (Optimistic update)
+    final updatedProje = proje.copyWith(projeAdi: proje.projeAdi, projeDetay: proje.projeDetay);
     final updatedList = [
       for (final p in previousState)
         if (p.id == proje.id) updatedProje else p,
@@ -47,13 +46,16 @@ class ProjeAsync extends _$ProjeAsync {
     state = AsyncData(updatedList);
 
     try {
-      // 2. Adım: API'ye gönder
-      locator<ApiService>().updateProje(updatedProje: updatedProje);
+      // 2. Adım: API'ye gönder (await eklendi!)
+      await locator<ApiService>().updateProje(updatedProje: updatedProje);
 
       // 3. Adım: Başarılıysa Local DB'yi de güncelle
       await ref.read(hiveServiceProvider.notifier).updateItemFromBox(updatedProje);
     } catch (e) {
+      // Hata durumunda rollback
+      print('Update error: $e');
       state = AsyncData(previousState);
+      rethrow; // Hatayı UI'a ilet
     }
   }
 

@@ -9,11 +9,10 @@ part 'projedetay_model.g.dart';
 class ProjeDetay with _$ProjeDetay {
   const factory ProjeDetay({
     @HiveField(0) required bool todoStatus,
-    @HiveField(1) required double kuyuBoy,
-    @HiveField(2) required double kuyuDerinlik,
+    @HiveField(1) @Default(0) double kuyuBoy,
+    @HiveField(2) @Default(0) double kuyuDerinlik,
     @HiveField(3) required DateTime createdAt,
   }) = _ProjeDetay;
 
-  factory ProjeDetay.fromJson(Map<String, dynamic> json)
-      => _$ProjeDetayFromJson(json);
+  factory ProjeDetay.fromJson(Map<String, dynamic> json) => _$ProjeDetayFromJson(json);
 }

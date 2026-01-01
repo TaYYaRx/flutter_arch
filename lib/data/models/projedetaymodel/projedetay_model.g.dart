@@ -56,8 +56,8 @@ class ProjeDetayAdapter extends TypeAdapter<ProjeDetay> {
 _$ProjeDetayImpl _$$ProjeDetayImplFromJson(Map<String, dynamic> json) =>
     _$ProjeDetayImpl(
       todoStatus: json['todoStatus'] as bool,
-      kuyuBoy: (json['kuyuBoy'] as num).toDouble(),
-      kuyuDerinlik: (json['kuyuDerinlik'] as num).toDouble(),
+      kuyuBoy: (json['kuyuBoy'] as num?)?.toDouble() ?? 0,
+      kuyuDerinlik: (json['kuyuDerinlik'] as num?)?.toDouble() ?? 0,
       createdAt: DateTime.parse(json['createdAt'] as String),
     );
 

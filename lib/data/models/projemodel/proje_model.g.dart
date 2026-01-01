@@ -51,7 +51,7 @@ class ProjeAdapter extends TypeAdapter<Proje> {
 // **************************************************************************
 
 _$ProjeImpl _$$ProjeImplFromJson(Map<String, dynamic> json) => _$ProjeImpl(
-      id: json['_id'] as String,
+      id: json['_id'] as String? ?? '',
       projeAdi: json['projeAdi'] as String,
       projeDetay:
           ProjeDetay.fromJson(json['projeDetay'] as Map<String, dynamic>),

@@ -33,7 +33,12 @@ class ApiService {
   }
 
   Future<void> addProje({required Proje proje}) async {
-    final body = jsonEncode(proje.toJson());
+    // Convert to JSON and remove _id if it's empty to let MongoDB generate it
+    final jsonMap = proje.toJson();
+    if (jsonMap['_id'] == null || jsonMap['_id'] == '') {
+      jsonMap.remove('_id');
+    }
+    final body = jsonEncode(jsonMap);
     await locator<ApiRepository>().addProje(jsonBody: body);
   }
 

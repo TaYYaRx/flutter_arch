@@ -10,11 +10,11 @@ part 'proje_model.g.dart';
 class Proje with _$Proje {
   const factory Proje({
     // ignore: invalid_annotation_target
-    @HiveField(0) @JsonKey(name: '_id') required String id,
+    @HiveField(0) @JsonKey(name: '_id', includeIfNull: false) @Default('') String id,
 
     @HiveField(1) required String projeAdi,
 
-   @HiveField(2)  required ProjeDetay projeDetay,
+    @HiveField(2) required ProjeDetay projeDetay,
   }) = _Proje;
 
   factory Proje.fromJson(Map<String, dynamic> json) => _$ProjeFromJson(json);

@@ -152,8 +152,8 @@ class __$$ProjeDetayImplCopyWithImpl<$Res>
 class _$ProjeDetayImpl implements _ProjeDetay {
   const _$ProjeDetayImpl(
       {@HiveField(0) required this.todoStatus,
-      @HiveField(1) required this.kuyuBoy,
-      @HiveField(2) required this.kuyuDerinlik,
+      @HiveField(1) this.kuyuBoy = 0,
+      @HiveField(2) this.kuyuDerinlik = 0,
       @HiveField(3) required this.createdAt});
 
   factory _$ProjeDetayImpl.fromJson(Map<String, dynamic> json) =>
@@ -163,9 +163,11 @@ class _$ProjeDetayImpl implements _ProjeDetay {
   @HiveField(0)
   final bool todoStatus;
   @override
+  @JsonKey()
   @HiveField(1)
   final double kuyuBoy;
   @override
+  @JsonKey()
   @HiveField(2)
   final double kuyuDerinlik;
   @override
@@ -215,8 +217,8 @@ class _$ProjeDetayImpl implements _ProjeDetay {
 abstract class _ProjeDetay implements ProjeDetay {
   const factory _ProjeDetay(
       {@HiveField(0) required final bool todoStatus,
-      @HiveField(1) required final double kuyuBoy,
-      @HiveField(2) required final double kuyuDerinlik,
+      @HiveField(1) final double kuyuBoy,
+      @HiveField(2) final double kuyuDerinlik,
       @HiveField(3) required final DateTime createdAt}) = _$ProjeDetayImpl;
 
   factory _ProjeDetay.fromJson(Map<String, dynamic> json) =

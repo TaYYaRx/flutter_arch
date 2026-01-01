@@ -22,7 +22,7 @@ Proje _$ProjeFromJson(Map<String, dynamic> json) {
 mixin _$Proje {
 // ignore: invalid_annotation_target
   @HiveField(0)
-  @JsonKey(name: '_id')
+  @JsonKey(name: '_id', includeIfNull: false)
   String get id => throw _privateConstructorUsedError;
   @HiveField(1)
   String get projeAdi => throw _privateConstructorUsedError;
@@ -44,7 +44,7 @@ abstract class $ProjeCopyWith<$Res> {
       _$ProjeCopyWithImpl<$Res, Proje>;
   @useResult
   $Res call(
-      {@HiveField(0) @JsonKey(name: '_id') String id,
+      {@HiveField(0) @JsonKey(name: '_id', includeIfNull: false) String id,
       @HiveField(1) String projeAdi,
       @HiveField(2) ProjeDetay projeDetay});
 
@@ -105,7 +105,7 @@ abstract class _$$ProjeImplCopyWith<$Res> implements $ProjeCopyWith<$Res> {
   @override
   @useResult
   $Res call(
-      {@HiveField(0) @JsonKey(name: '_id') String id,
+      {@HiveField(0) @JsonKey(name: '_id', includeIfNull: false) String id,
       @HiveField(1) String projeAdi,
       @HiveField(2) ProjeDetay projeDetay});
 
@@ -151,7 +151,7 @@ class __$$ProjeImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$ProjeImpl implements _Proje {
   const _$ProjeImpl(
-      {@HiveField(0) @JsonKey(name: '_id') required this.id,
+      {@HiveField(0) @JsonKey(name: '_id', includeIfNull: false) this.id = '',
       @HiveField(1) required this.projeAdi,
       @HiveField(2) required this.projeDetay});
 
@@ -161,7 +161,7 @@ class _$ProjeImpl implements _Proje {
 // ignore: invalid_annotation_target
   @override
   @HiveField(0)
-  @JsonKey(name: '_id')
+  @JsonKey(name: '_id', includeIfNull: false)
   final String id;
   @override
   @HiveField(1)
@@ -209,7 +209,9 @@ class _$ProjeImpl implements _Proje {
 
 abstract class _Proje implements Proje {
   const factory _Proje(
-      {@HiveField(0) @JsonKey(name: '_id') required final String id,
+      {@HiveField(0)
+      @JsonKey(name: '_id', includeIfNull: false)
+      final String id,
       @HiveField(1) required final String projeAdi,
       @HiveField(2) required final ProjeDetay projeDetay}) = _$ProjeImpl;
 
@@ -218,7 +220,7 @@ abstract class _Proje implements Proje {
 // ignore: invalid_annotation_target
   @override
   @HiveField(0)
-  @JsonKey(name: '_id')
+  @JsonKey(name: '_id', includeIfNull: false)
   String get id;
   @override
   @HiveField(1)

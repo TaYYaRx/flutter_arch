@@ -139,7 +139,7 @@ class _MyHomePageState extends State<MyHomePage> {
         decoration: BoxDecoration(
           gradient: gradient,
           borderRadius: BorderRadius.circular(16),
-          boxShadow: [BoxShadow(color: gradient.colors.first.withOpacity(0.3), blurRadius: 12, offset: const Offset(0, 6))],
+          boxShadow: [BoxShadow(color: gradient.colors.first.withValues(alpha: 0.3), blurRadius: 12, offset: const Offset(0, 6))],
         ),
         child: Material(
           color: Colors.transparent,
@@ -170,12 +170,12 @@ class _MyHomePageState extends State<MyHomePage> {
                     ],
                   ),
                   const SizedBox(height: 12),
-                  Row(
+                  Wrap(
+                    spacing: 12,
+                    runSpacing: 8,
                     children: [
                       _buildInfoChip(Icons.height, '${proje.projeDetay.kuyuBoy}m'),
-                      const SizedBox(width: 12),
                       _buildInfoChip(Icons.arrow_downward, '${proje.projeDetay.kuyuDerinlik}m'),
-                      const SizedBox(width: 12),
                       _buildInfoChip(
                         Icons.calendar_today,
                         '${proje.projeDetay.createdAt.day}/${proje.projeDetay.createdAt.month}/${proje.projeDetay.createdAt.year}',
@@ -376,7 +376,7 @@ class _MyHomePageState extends State<MyHomePage> {
           actions: [
             TextButton(onPressed: () => Navigator.pop(context), child: const Text('İptal')),
             ElevatedButton(
-              onPressed: () {
+              onPressed: () async {
                 final projeAdi = projeAdiController.text.trim();
                 final kuyuBoy = double.tryParse(kuyuBoyController.text) ?? 0;
                 final kuyuDerinlik = double.tryParse(kuyuDerinlikController.text) ?? 0;
@@ -394,14 +394,43 @@ class _MyHomePageState extends State<MyHomePage> {
                 );
 
                 if (isEdit) {
-                  final updatedProje = proje.copyWith(projeAdi: projeAdi, projeDetay: projeDetay);
-                  ref.read(projeAsyncProvider.notifier).updateProje(updatedProje);
+                  try {
+                    final updatedProje = proje.copyWith(projeAdi: projeAdi, projeDetay: projeDetay);
+                    await ref.read(projeAsyncProvider.notifier).updateProje(updatedProje);
+                    Navigator.pop(context);
+                    if (context.mounted) {
+                      ScaffoldMessenger.of(
+                        context,
+                      ).showSnackBar(const SnackBar(content: Text('Proje başarıyla güncellendi'), backgroundColor: Colors.green));
+                    }
+                  } catch (e) {
+                    Navigator.pop(context);
+                    if (context.mounted) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text('Güncelleme hatası: $e'), backgroundColor: Colors.red, duration: const Duration(seconds: 4)),
+                      );
+                    }
+                  }
                 } else {
-                  final newProje = Proje(id: DateTime.now().millisecondsSinceEpoch.toString(), projeAdi: projeAdi, projeDetay: projeDetay);
-                  ref.read(projeAsyncProvider.notifier).addProje(newProje);
+                  try {
+                    // MongoDB will generate the ObjectId, so we pass empty string
+                    final newProje = Proje(projeAdi: projeAdi, projeDetay: projeDetay);
+                    await ref.read(projeAsyncProvider.notifier).addProje(newProje);
+                    Navigator.pop(context);
+                    if (context.mounted) {
+                      ScaffoldMessenger.of(
+                        context,
+                      ).showSnackBar(const SnackBar(content: Text('Proje başarıyla eklendi'), backgroundColor: Colors.green));
+                    }
+                  } catch (e) {
+                    Navigator.pop(context);
+                    if (context.mounted) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text('Ekleme hatası: $e'), backgroundColor: Colors.red, duration: const Duration(seconds: 4)),
+                      );
+                    }
+                  }
                 }
-
-                Navigator.pop(context);
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: const Color(0xFF667eea),
