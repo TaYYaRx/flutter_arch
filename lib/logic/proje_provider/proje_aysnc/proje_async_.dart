@@ -30,7 +30,6 @@ class ProjeAsync extends _$ProjeAsync {
       state = AsyncData(remoteData);
     } catch (e) {
       // Hata yönetimi (Opsiyonel: UI'a hata göstermek için)
-      print(e);
       state = AsyncError(e, StackTrace.current);
     }
   }

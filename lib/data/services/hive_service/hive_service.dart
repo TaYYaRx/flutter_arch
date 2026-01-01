@@ -19,7 +19,7 @@ class HiveService extends _$HiveService implements AppService {
 
   @override
   Future<void> cleanAndSaveListToBox(List<Proje> projeler) async {
-    print('YENISI EKLENIYOR');
+    print('cleanAndSaveListToBox çalışıyor');
 
     await HiveBoxService.projeBoX.clear();
     for (final proje in projeler) {

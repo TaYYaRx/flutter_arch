@@ -6,7 +6,7 @@ part of 'hive_service.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$hiveServiceHash() => r'b58ff00aad79bce5537410d2d0b4e14b14c0538c';
+String _$hiveServiceHash() => r'501367af5cf7d90e5d001d5f590565b4136d7fe8';
 
 /// See also [HiveService].
 @ProviderFor(HiveService)

@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
 import 'package:flutter_arch/data/locator/locator.dart';
 import 'package:flutter_arch/data/models/projemodel/proje_model.dart';
 import 'package:flutter_arch/data/repositories/api_repository.dart';
@@ -11,12 +12,19 @@ class ApiService {
   ApiService({required this.repository});
 
   Future<List<Proje>> fetchProjeler() async {
-    final remoteProjelerString = await repository.fetchProjelerFromApi();
-    //{"success":true,"count":4,"projeler":[.....]} şeklinde JSON verisi geliyor.
-    final List<dynamic> decodedJson = json.decode(remoteProjelerString)['projeler'];
-    //Tüm Projeleri içeren bir listeye map metodu ile dönüşümü yapılıyor.
-    final List<Proje> decodedList = decodedJson.map((e) => Proje.fromJson(e as Map<String, dynamic>)).toList();
-    return Future.value(decodedList);
+    try {
+      final response = await repository.fetchProjelerFromApi();
+      //{"success":true,"count":4,"projeler":[...]} şeklinde JSON verisi geliyor.Bu bir sınıf olarak ele alınabilir...
+      final decoded = json.decode(response) as Map<String, dynamic>;
+      //Tüm Projeleri içeren bir listeye map metodu ile dönüşümü yapılıyor.
+      final List projelerJson = decoded['projeler'];
+
+      return projelerJson.map((p) => Proje.fromJson(p as Map<String, dynamic>)).toList();
+    } catch (e, s) {
+      debugPrint('fetchProjeler error: $e');
+      debugPrintStack(stackTrace: s);
+      return [];
+    }
   }
 
   Future<void> updateProje({required Proje updatedProje}) async {
@@ -62,4 +70,20 @@ class ApiService {
     final remoteProjeler = remoteProjelerList.map((e) => Proje.fromJson(e as Map<String, dynamic>)).toList();
     return Future.value(remoteProjeler);
   }
+ */
+
+/**
+ * 
+ * class ProjeResponse {
+  final bool success;
+  final int count;
+  final List<Proje> projeler;
+
+  ProjeResponse.fromJson(Map<String, dynamic> json)
+      : success = json['success'],
+        count = json['count'],
+        projeler = (json['projeler'] as List)
+            .map((e) => Proje.fromJson(e))
+            .toList();
+}
  */

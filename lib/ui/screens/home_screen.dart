@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_arch/data/locator/locator.dart';
-import 'package:flutter_arch/data/services/api_service.dart';
 import 'package:flutter_arch/logic/proje_provider/proje_aysnc/proje_async_.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -49,7 +47,9 @@ class _MyHomePageState extends State<MyHomePage> {
       floatingActionButton: Consumer(
         builder: (context, ref, child) {
           return FloatingActionButton(
-            onPressed: () => {locator<ApiService>().fetchProjeler()},
+            onPressed: () {
+
+            },
             tooltip: 'Increment',
             child: const Icon(Icons.add),
           );
