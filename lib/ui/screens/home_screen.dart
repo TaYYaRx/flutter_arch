@@ -378,8 +378,8 @@ class _MyHomePageState extends State<MyHomePage> {
             ElevatedButton(
               onPressed: () {
                 final projeAdi = projeAdiController.text.trim();
-                final kuyuBoy = int.tryParse(kuyuBoyController.text) ?? 0;
-                final kuyuDerinlik = int.tryParse(kuyuDerinlikController.text) ?? 0;
+                final kuyuBoy = double.tryParse(kuyuBoyController.text) ?? 0;
+                final kuyuDerinlik = double.tryParse(kuyuDerinlikController.text) ?? 0;
 
                 if (projeAdi.isEmpty) {
                   ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Proje adı boş olamaz')));

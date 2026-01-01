@@ -18,8 +18,8 @@ class ProjeDetayAdapter extends TypeAdapter<ProjeDetay> {
     };
     return ProjeDetay(
       todoStatus: fields[0] as bool,
-      kuyuBoy: fields[1] as int,
-      kuyuDerinlik: fields[2] as int,
+      kuyuBoy: fields[1] as double,
+      kuyuDerinlik: fields[2] as double,
       createdAt: fields[3] as DateTime,
     );
   }
@@ -56,8 +56,8 @@ class ProjeDetayAdapter extends TypeAdapter<ProjeDetay> {
 _$ProjeDetayImpl _$$ProjeDetayImplFromJson(Map<String, dynamic> json) =>
     _$ProjeDetayImpl(
       todoStatus: json['todoStatus'] as bool,
-      kuyuBoy: (json['kuyuBoy'] as num).toInt(),
-      kuyuDerinlik: (json['kuyuDerinlik'] as num).toInt(),
+      kuyuBoy: (json['kuyuBoy'] as num).toDouble(),
+      kuyuDerinlik: (json['kuyuDerinlik'] as num).toDouble(),
       createdAt: DateTime.parse(json['createdAt'] as String),
     );
 

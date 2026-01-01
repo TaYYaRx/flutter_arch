@@ -14,7 +14,7 @@ class Proje with _$Proje {
 
     @HiveField(1) required String projeAdi,
 
-    @HiveField(2) required ProjeDetay projeDetay,
+   @HiveField(2)  required ProjeDetay projeDetay,
   }) = _Proje;
 
   factory Proje.fromJson(Map<String, dynamic> json) => _$ProjeFromJson(json);

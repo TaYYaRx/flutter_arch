@@ -6,7 +6,7 @@ part of 'proje_async_.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$projeAsyncHash() => r'aa464af785346b72ad2f075738fa372d63414e73';
+String _$projeAsyncHash() => r'28771a7948efcc73b6eeec61d008166a18cbab8d';
 
 /// See also [ProjeAsync].
 @ProviderFor(ProjeAsync)

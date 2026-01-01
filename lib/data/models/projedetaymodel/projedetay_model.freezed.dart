@@ -23,9 +23,9 @@ mixin _$ProjeDetay {
   @HiveField(0)
   bool get todoStatus => throw _privateConstructorUsedError;
   @HiveField(1)
-  int get kuyuBoy => throw _privateConstructorUsedError;
+  double get kuyuBoy => throw _privateConstructorUsedError;
   @HiveField(2)
-  int get kuyuDerinlik => throw _privateConstructorUsedError;
+  double get kuyuDerinlik => throw _privateConstructorUsedError;
   @HiveField(3)
   DateTime get createdAt => throw _privateConstructorUsedError;
 
@@ -47,8 +47,8 @@ abstract class $ProjeDetayCopyWith<$Res> {
   @useResult
   $Res call(
       {@HiveField(0) bool todoStatus,
-      @HiveField(1) int kuyuBoy,
-      @HiveField(2) int kuyuDerinlik,
+      @HiveField(1) double kuyuBoy,
+      @HiveField(2) double kuyuDerinlik,
       @HiveField(3) DateTime createdAt});
 }
 
@@ -80,11 +80,11 @@ class _$ProjeDetayCopyWithImpl<$Res, $Val extends ProjeDetay>
       kuyuBoy: null == kuyuBoy
           ? _value.kuyuBoy
           : kuyuBoy // ignore: cast_nullable_to_non_nullable
-              as int,
+              as double,
       kuyuDerinlik: null == kuyuDerinlik
           ? _value.kuyuDerinlik
           : kuyuDerinlik // ignore: cast_nullable_to_non_nullable
-              as int,
+              as double,
       createdAt: null == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -103,8 +103,8 @@ abstract class _$$ProjeDetayImplCopyWith<$Res>
   @useResult
   $Res call(
       {@HiveField(0) bool todoStatus,
-      @HiveField(1) int kuyuBoy,
-      @HiveField(2) int kuyuDerinlik,
+      @HiveField(1) double kuyuBoy,
+      @HiveField(2) double kuyuDerinlik,
       @HiveField(3) DateTime createdAt});
 }
 
@@ -134,11 +134,11 @@ class __$$ProjeDetayImplCopyWithImpl<$Res>
       kuyuBoy: null == kuyuBoy
           ? _value.kuyuBoy
           : kuyuBoy // ignore: cast_nullable_to_non_nullable
-              as int,
+              as double,
       kuyuDerinlik: null == kuyuDerinlik
           ? _value.kuyuDerinlik
           : kuyuDerinlik // ignore: cast_nullable_to_non_nullable
-              as int,
+              as double,
       createdAt: null == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -164,10 +164,10 @@ class _$ProjeDetayImpl implements _ProjeDetay {
   final bool todoStatus;
   @override
   @HiveField(1)
-  final int kuyuBoy;
+  final double kuyuBoy;
   @override
   @HiveField(2)
-  final int kuyuDerinlik;
+  final double kuyuDerinlik;
   @override
   @HiveField(3)
   final DateTime createdAt;
@@ -215,8 +215,8 @@ class _$ProjeDetayImpl implements _ProjeDetay {
 abstract class _ProjeDetay implements ProjeDetay {
   const factory _ProjeDetay(
       {@HiveField(0) required final bool todoStatus,
-      @HiveField(1) required final int kuyuBoy,
-      @HiveField(2) required final int kuyuDerinlik,
+      @HiveField(1) required final double kuyuBoy,
+      @HiveField(2) required final double kuyuDerinlik,
       @HiveField(3) required final DateTime createdAt}) = _$ProjeDetayImpl;
 
   factory _ProjeDetay.fromJson(Map<String, dynamic> json) =
@@ -227,10 +227,10 @@ abstract class _ProjeDetay implements ProjeDetay {
   bool get todoStatus;
   @override
   @HiveField(1)
-  int get kuyuBoy;
+  double get kuyuBoy;
   @override
   @HiveField(2)
-  int get kuyuDerinlik;
+  double get kuyuDerinlik;
   @override
   @HiveField(3)
   DateTime get createdAt;
