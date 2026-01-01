@@ -6,7 +6,7 @@ class ApiRepository {
   Future<String> fetchProjelerFromApi() async {
     try {
       final response = await http.get(Uri.parse(baseUrlProjeler));
-      if (response.statusCode == 200) {  
+      if (response.statusCode == 200) {
         return response.body;
       } else {
         throw Exception('Failed to load API');
@@ -27,6 +27,38 @@ class ApiRepository {
         return;
       } else {
         throw Exception('Failed to load API');
+      }
+    } catch (e) {
+      throw Exception('ERROR: Network connection error ::: $e');
+    }
+  }
+
+  Future<void> addProje({required String jsonBody}) async {
+    try {
+      final uri = Uri.parse(baseUrlProjeler);
+      final response = await http.post(uri, headers: {'Content-Type': 'application/json'}, body: jsonBody);
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        return;
+      } else {
+        throw Exception('Failed to add project');
+      }
+    } catch (e) {
+      throw Exception('ERROR: Network connection error ::: $e');
+    }
+  }
+
+  Future<void> deleteProje({required String id}) async {
+    try {
+      final uriDeleteRoute = '$baseUrlProjeler/$id';
+      final uri = Uri.parse(uriDeleteRoute);
+
+      final response = await http.delete(uri);
+
+      if (response.statusCode == 200 || response.statusCode == 204) {
+        return;
+      } else {
+        throw Exception('Failed to delete project');
       }
     } catch (e) {
       throw Exception('ERROR: Network connection error ::: $e');

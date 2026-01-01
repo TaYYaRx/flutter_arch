@@ -31,6 +31,15 @@ class ApiService {
     final body = jsonEncode(updatedProje.toJson());
     locator<ApiRepository>().updateProje(id: updatedProje.id, jsonBody: body);
   }
+
+  Future<void> addProje({required Proje proje}) async {
+    final body = jsonEncode(proje.toJson());
+    await locator<ApiRepository>().addProje(jsonBody: body);
+  }
+
+  Future<void> deleteProje({required String id}) async {
+    await locator<ApiRepository>().deleteProje(id: id);
+  }
 }
 
 
