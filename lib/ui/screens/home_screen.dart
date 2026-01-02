@@ -105,7 +105,7 @@ class _MyHomePageState extends State<MyHomePage> {
             decoration: BoxDecoration(
               gradient: const LinearGradient(colors: [Color(0xFF667eea), Color(0xFF764ba2)]),
               borderRadius: BorderRadius.circular(16),
-              boxShadow: [BoxShadow(color: const Color(0xFF667eea).withOpacity(0.4), blurRadius: 12, offset: const Offset(0, 6))],
+              boxShadow: [BoxShadow(color: const Color(0xFF667eea).withAlpha(128), blurRadius: 12, offset: const Offset(0, 6))],
             ),
             child: FloatingActionButton(
               onPressed: () => _showAddEditDialog(context, ref),
@@ -161,7 +161,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       ),
                       Container(
                         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                        decoration: BoxDecoration(color: Colors.white.withOpacity(0.2), borderRadius: BorderRadius.circular(12)),
+                        decoration: BoxDecoration(color: Colors.white.withAlpha(128), borderRadius: BorderRadius.circular(12)),
                         child: Text(
                           proje.projeDetay.todoStatus ? 'Tamamlandı' : 'Devam Ediyor',
                           style: const TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.w600),
@@ -194,7 +194,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget _buildInfoChip(IconData icon, String label) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-      decoration: BoxDecoration(color: Colors.white.withOpacity(0.2), borderRadius: BorderRadius.circular(8)),
+      decoration: BoxDecoration(color: Colors.white.withAlpha(128), borderRadius: BorderRadius.circular(8)),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -239,7 +239,7 @@ class _MyHomePageState extends State<MyHomePage> {
             decoration: BoxDecoration(
               gradient: const LinearGradient(colors: [Color(0xFF667eea), Color(0xFF764ba2)]),
               shape: BoxShape.circle,
-              boxShadow: [BoxShadow(color: const Color(0xFF667eea).withOpacity(0.3), blurRadius: 20, offset: const Offset(0, 10))],
+              boxShadow: [BoxShadow(color: const Color(0xFF667eea).withAlpha(128), blurRadius: 20, offset: const Offset(0, 10))],
             ),
             child: const Icon(Icons.folder_open, size: 64, color: Colors.white),
           ),
