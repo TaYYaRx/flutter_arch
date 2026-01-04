@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_arch/data/locator/locator.dart';
-import 'package:flutter_arch/ui/widgets/homescreen/body/service.dart';
+import 'package:flutter_arch/ui/widgets/homescreen/body/hs_services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class HSFloatingActionButton extends StatelessWidget {

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_arch/data/locator/locator.dart';
 import 'package:flutter_arch/data/services/hive_box_service.dart';
-import 'package:flutter_arch/ui/screens/home_screen.dart';
+import 'package:flutter_arch/ui/screens/xhome_screen.dart';
 import 'package:flutter_arch/ui/screens/homescreen.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
