@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/material.dart';
 import 'package:flutter_arch/data/locator/locator.dart';
 import 'package:flutter_arch/data/models/projemodel/proje_model.dart';
 import 'package:flutter_arch/data/services/hive_service/hive_service.dart';
@@ -21,7 +22,7 @@ class ProjeAsync extends _$ProjeAsync {
   }
 
   Future<void> _fetchFromRemote() async {
-    print('Veriler getiriliyor');
+    debugPrint('Veriler getiriliyor');
     try {
       //Verileri Remote kaynaktan getir.
       final remoteData = await locator<ApiService>().fetchProjeler();
@@ -53,7 +54,7 @@ class ProjeAsync extends _$ProjeAsync {
       await ref.read(hiveServiceProvider.notifier).updateItemFromBox(updatedProje);
     } catch (e) {
       // Hata durumunda rollback
-      print('Update error: $e');
+      debugPrint('Update error: $e');
       state = AsyncData(previousState);
       rethrow; // Hatayı UI'a ilet
     }

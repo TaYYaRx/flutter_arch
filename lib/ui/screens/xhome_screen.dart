@@ -51,12 +51,20 @@ class _MyHomePageState extends State<MyHomePage> {
         elevation: 0,
         flexibleSpace: Container(
           decoration: const BoxDecoration(
-            gradient: LinearGradient(colors: [Color(0xFF667eea), Color(0xFF764ba2)], begin: Alignment.topLeft, end: Alignment.bottomRight),
+            gradient: LinearGradient(
+              colors: [Color(0xFF667eea), Color(0xFF764ba2)],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
           ),
         ),
         title: Text(
           widget.title,
-          style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 24),
+          style: const TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+            fontSize: 24,
+          ),
         ),
         centerTitle: true,
       ),
@@ -75,7 +83,13 @@ class _MyHomePageState extends State<MyHomePage> {
                     itemBuilder: (context, index) {
                       final proje = data[index];
                       final gradient = gradients[index % gradients.length];
-                      return _buildProjectCard(context, ref, proje, gradient, index);
+                      return _buildProjectCard(
+                        context,
+                        ref,
+                        proje,
+                        gradient,
+                        index,
+                      );
                     },
                   );
                 },
@@ -84,11 +98,22 @@ class _MyHomePageState extends State<MyHomePage> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const Icon(Icons.error_outline, size: 64, color: Colors.red),
+                        const Icon(
+                          Icons.error_outline,
+                          size: 64,
+                          color: Colors.red,
+                        ),
                         const SizedBox(height: 16),
-                        Text('Bir hata oluştu', style: Theme.of(context).textTheme.titleLarge),
+                        Text(
+                          'Bir hata oluştu',
+                          style: Theme.of(context).textTheme.titleLarge,
+                        ),
                         const SizedBox(height: 8),
-                        Text(error.toString(), textAlign: TextAlign.center, style: Theme.of(context).textTheme.bodyMedium),
+                        Text(
+                          error.toString(),
+                          textAlign: TextAlign.center,
+                          style: Theme.of(context).textTheme.bodyMedium,
+                        ),
                       ],
                     ),
                   );
@@ -103,9 +128,17 @@ class _MyHomePageState extends State<MyHomePage> {
         builder: (context, ref, child) {
           return Container(
             decoration: BoxDecoration(
-              gradient: const LinearGradient(colors: [Color(0xFF667eea), Color(0xFF764ba2)]),
+              gradient: const LinearGradient(
+                colors: [Color(0xFF667eea), Color(0xFF764ba2)],
+              ),
               borderRadius: BorderRadius.circular(16),
-              boxShadow: [BoxShadow(color: const Color(0xFF667eea).withAlpha(128), blurRadius: 12, offset: const Offset(0, 6))],
+              boxShadow: [
+                BoxShadow(
+                  color: const Color(0xFF667eea).withAlpha(128),
+                  blurRadius: 12,
+                  offset: const Offset(0, 6),
+                ),
+              ],
             ),
             child: FloatingActionButton(
               onPressed: () => _showAddEditDialog(context, ref),
@@ -119,11 +152,27 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  Widget _buildProjectCard(BuildContext context, WidgetRef ref, Proje proje, LinearGradient gradient, int index) {
+  Widget _buildProjectCard(
+    BuildContext context,
+    WidgetRef ref,
+    Proje proje,
+    LinearGradient gradient,
+    int index,
+  ) {
     return Dismissible(
       key: Key(proje.id),
-      background: _buildSwipeBackground(alignment: Alignment.centerLeft, color: Colors.green, icon: Icons.edit, label: 'Düzenle'),
-      secondaryBackground: _buildSwipeBackground(alignment: Alignment.centerRight, color: Colors.red, icon: Icons.delete, label: 'Sil'),
+      background: _buildSwipeBackground(
+        alignment: Alignment.centerLeft,
+        color: Colors.green,
+        icon: Icons.edit,
+        label: 'Düzenle',
+      ),
+      secondaryBackground: _buildSwipeBackground(
+        alignment: Alignment.centerRight,
+        color: Colors.red,
+        icon: Icons.delete,
+        label: 'Sil',
+      ),
       confirmDismiss: (direction) async {
         if (direction == DismissDirection.endToStart) {
           // Sola kaydırma - Sil
@@ -139,7 +188,13 @@ class _MyHomePageState extends State<MyHomePage> {
         decoration: BoxDecoration(
           gradient: gradient,
           borderRadius: BorderRadius.circular(16),
-          boxShadow: [BoxShadow(color: gradient.colors.first.withValues(alpha: 0.3), blurRadius: 12, offset: const Offset(0, 6))],
+          boxShadow: [
+            BoxShadow(
+              color: gradient.colors.first.withValues(alpha: 0.3),
+              blurRadius: 12,
+              offset: const Offset(0, 6),
+            ),
+          ],
         ),
         child: Material(
           color: Colors.transparent,
@@ -156,15 +211,31 @@ class _MyHomePageState extends State<MyHomePage> {
                       Expanded(
                         child: Text(
                           proje.projeAdi,
-                          style: const TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
                       Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                        decoration: BoxDecoration(color: Colors.white.withAlpha(128), borderRadius: BorderRadius.circular(12)),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 12,
+                          vertical: 6,
+                        ),
+                        decoration: BoxDecoration(
+                          color: Colors.white.withAlpha(128),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
                         child: Text(
-                          proje.projeDetay.todoStatus ? 'Tamamlandı' : 'Devam Ediyor',
-                          style: const TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.w600),
+                          proje.projeDetay.todoStatus
+                              ? 'Tamamlandı'
+                              : 'Devam Ediyor',
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 12,
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
                       ),
                     ],
@@ -174,8 +245,14 @@ class _MyHomePageState extends State<MyHomePage> {
                     spacing: 12,
                     runSpacing: 8,
                     children: [
-                      _buildInfoChip(Icons.height, '${proje.projeDetay.kuyuBoy}m'),
-                      _buildInfoChip(Icons.arrow_downward, '${proje.projeDetay.kuyuDerinlik}m'),
+                      _buildInfoChip(
+                        Icons.height,
+                        '${proje.projeDetay.kuyuBoy}m',
+                      ),
+                      _buildInfoChip(
+                        Icons.arrow_downward,
+                        '${proje.projeDetay.kuyuDerinlik}m',
+                      ),
                       _buildInfoChip(
                         Icons.calendar_today,
                         '${proje.projeDetay.createdAt.day}/${proje.projeDetay.createdAt.month}/${proje.projeDetay.createdAt.year}',
@@ -194,7 +271,10 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget _buildInfoChip(IconData icon, String label) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-      decoration: BoxDecoration(color: Colors.white.withAlpha(128), borderRadius: BorderRadius.circular(8)),
+      decoration: BoxDecoration(
+        color: Colors.white.withAlpha(128),
+        borderRadius: BorderRadius.circular(8),
+      ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -202,17 +282,29 @@ class _MyHomePageState extends State<MyHomePage> {
           const SizedBox(width: 4),
           Text(
             label,
-            style: const TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.w500),
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 12,
+              fontWeight: FontWeight.w500,
+            ),
           ),
         ],
       ),
     );
   }
 
-  Widget _buildSwipeBackground({required Alignment alignment, required Color color, required IconData icon, required String label}) {
+  Widget _buildSwipeBackground({
+    required Alignment alignment,
+    required Color color,
+    required IconData icon,
+    required String label,
+  }) {
     return Container(
       margin: const EdgeInsets.only(bottom: 16),
-      decoration: BoxDecoration(color: color, borderRadius: BorderRadius.circular(16)),
+      decoration: BoxDecoration(
+        color: color,
+        borderRadius: BorderRadius.circular(16),
+      ),
       alignment: alignment,
       padding: const EdgeInsets.symmetric(horizontal: 24),
       child: Column(
@@ -222,7 +314,10 @@ class _MyHomePageState extends State<MyHomePage> {
           const SizedBox(height: 4),
           Text(
             label,
-            style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+            style: const TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ],
       ),
@@ -237,16 +332,28 @@ class _MyHomePageState extends State<MyHomePage> {
           Container(
             padding: const EdgeInsets.all(32),
             decoration: BoxDecoration(
-              gradient: const LinearGradient(colors: [Color(0xFF667eea), Color(0xFF764ba2)]),
+              gradient: const LinearGradient(
+                colors: [Color(0xFF667eea), Color(0xFF764ba2)],
+              ),
               shape: BoxShape.circle,
-              boxShadow: [BoxShadow(color: const Color(0xFF667eea).withAlpha(128), blurRadius: 20, offset: const Offset(0, 10))],
+              boxShadow: [
+                BoxShadow(
+                  color: const Color(0xFF667eea).withAlpha(128),
+                  blurRadius: 20,
+                  offset: const Offset(0, 10),
+                ),
+              ],
             ),
             child: const Icon(Icons.folder_open, size: 64, color: Colors.white),
           ),
           const SizedBox(height: 24),
           const Text(
             'Henüz proje yok',
-            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Color(0xFF333333)),
+            style: TextStyle(
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+              color: Color(0xFF333333),
+            ),
           ),
           const SizedBox(height: 8),
           const Text(
@@ -259,7 +366,11 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  Future<bool?> _showDeleteConfirmation(BuildContext context, WidgetRef ref, Proje proje) async {
+  Future<bool?> _showDeleteConfirmation(
+    BuildContext context,
+    WidgetRef ref,
+    Proje proje,
+  ) async {
     return showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
@@ -271,9 +382,15 @@ class _MyHomePageState extends State<MyHomePage> {
             Text('Projeyi Sil'),
           ],
         ),
-        content: Text('"${proje.projeAdi}" projesini silmek istediğinizden emin misiniz?', style: const TextStyle(fontSize: 16)),
+        content: Text(
+          '"${proje.projeAdi}" projesini silmek istediğinizden emin misiniz?',
+          style: const TextStyle(fontSize: 16),
+        ),
         actions: [
-          TextButton(onPressed: () => Navigator.pop(context, false), child: const Text('İptal')),
+          TextButton(
+            onPressed: () => Navigator.pop(context, false),
+            child: const Text('İptal'),
+          ),
           ElevatedButton(
             onPressed: () {
               ref.read(projeAsyncProvider.notifier).deleteProje(proje.id);
@@ -282,7 +399,9 @@ class _MyHomePageState extends State<MyHomePage> {
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.red,
               foregroundColor: Colors.white,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8),
+              ),
             ),
             child: const Text('Sil'),
           ),
@@ -293,9 +412,15 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void _showAddEditDialog(BuildContext context, WidgetRef ref, {Proje? proje}) {
     final isEdit = proje != null;
-    final projeAdiController = TextEditingController(text: proje?.projeAdi ?? '');
-    final kuyuBoyController = TextEditingController(text: proje?.projeDetay.kuyuBoy.toString() ?? '');
-    final kuyuDerinlikController = TextEditingController(text: proje?.projeDetay.kuyuDerinlik.toString() ?? '');
+    final projeAdiController = TextEditingController(
+      text: proje?.projeAdi ?? '',
+    );
+    final kuyuBoyController = TextEditingController(
+      text: proje?.projeDetay.kuyuBoy.toString() ?? '',
+    );
+    final kuyuDerinlikController = TextEditingController(
+      text: proje?.projeDetay.kuyuDerinlik.toString() ?? '',
+    );
     bool todoStatus = proje?.projeDetay.todoStatus ?? false;
 
     showDialog(
@@ -303,16 +428,24 @@ class _MyHomePageState extends State<MyHomePage> {
       barrierDismissible: false,
       builder: (context) => StatefulBuilder(
         builder: (context, setState) => AlertDialog(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
           title: Row(
             children: [
               Container(
                 padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
-                  gradient: const LinearGradient(colors: [Color(0xFF667eea), Color(0xFF764ba2)]),
+                  gradient: const LinearGradient(
+                    colors: [Color(0xFF667eea), Color(0xFF764ba2)],
+                  ),
                   borderRadius: BorderRadius.circular(8),
                 ),
-                child: Icon(isEdit ? Icons.edit : Icons.add, color: Colors.white, size: 24),
+                child: Icon(
+                  isEdit ? Icons.edit : Icons.add,
+                  color: Colors.white,
+                  size: 24,
+                ),
               ),
               const SizedBox(width: 12),
               Text(isEdit ? 'Projeyi Düzenle' : 'Yeni Proje Ekle'),
@@ -329,7 +462,9 @@ class _MyHomePageState extends State<MyHomePage> {
                   decoration: InputDecoration(
                     labelText: 'Proje Adı',
                     prefixIcon: const Icon(Icons.folder),
-                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
                   ),
                 ),
                 const SizedBox(height: 16),
@@ -340,7 +475,9 @@ class _MyHomePageState extends State<MyHomePage> {
                   decoration: InputDecoration(
                     labelText: 'Kuyu Boyu (m)',
                     prefixIcon: const Icon(Icons.height),
-                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
                   ),
                 ),
                 const SizedBox(height: 16),
@@ -351,7 +488,9 @@ class _MyHomePageState extends State<MyHomePage> {
                   decoration: InputDecoration(
                     labelText: 'Kuyu Derinliği (m)',
                     prefixIcon: const Icon(Icons.arrow_downward),
-                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
                   ),
                 ),
                 const SizedBox(height: 16),
@@ -364,7 +503,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       todoStatus = value;
                     });
                   },
-                  activeColor: const Color(0xFF667eea),
+                  activeThumbColor: const Color(0xFF667eea),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
                     side: BorderSide(color: Colors.grey.shade300),
@@ -374,15 +513,21 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
           ),
           actions: [
-            TextButton(onPressed: () => Navigator.pop(context), child: const Text('İptal')),
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text('İptal'),
+            ),
             ElevatedButton(
               onPressed: () async {
                 final projeAdi = projeAdiController.text.trim();
                 final kuyuBoy = double.tryParse(kuyuBoyController.text) ?? 0;
-                final kuyuDerinlik = double.tryParse(kuyuDerinlikController.text) ?? 0;
+                final kuyuDerinlik =
+                    double.tryParse(kuyuDerinlikController.text) ?? 0;
 
                 if (projeAdi.isEmpty) {
-                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Proje adı boş olamaz')));
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('Proje adı boş olamaz')),
+                  );
                   return;
                 }
 
@@ -395,47 +540,67 @@ class _MyHomePageState extends State<MyHomePage> {
 
                 if (isEdit) {
                   try {
-                    final updatedProje = proje.copyWith(projeAdi: projeAdi, projeDetay: projeDetay);
-                    await ref.read(projeAsyncProvider.notifier).updateProje(updatedProje);
+                    final updatedProje = proje.copyWith(
+                      projeAdi: projeAdi,
+                      projeDetay: projeDetay,
+                    );
+                    await ref
+                        .read(projeAsyncProvider.notifier)
+                        .updateProje(updatedProje);
+                    if (!context.mounted) return;
                     Navigator.pop(context);
-                    if (context.mounted) {
-                      ScaffoldMessenger.of(
-                        context,
-                      ).showSnackBar(const SnackBar(content: Text('Proje başarıyla güncellendi'), backgroundColor: Colors.green));
-                    }
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('Proje başarıyla güncellendi'),
+                        backgroundColor: Colors.green,
+                      ),
+                    );
                   } catch (e) {
                     Navigator.pop(context);
-                    if (context.mounted) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text('Güncelleme hatası: $e'), backgroundColor: Colors.red, duration: const Duration(seconds: 4)),
-                      );
-                    }
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text('Güncelleme hatası: $e'),
+                        backgroundColor: Colors.red,
+                        duration: const Duration(seconds: 4),
+                      ),
+                    );
                   }
                 } else {
                   try {
                     // MongoDB will generate the ObjectId, so we pass empty string
-                    final newProje = Proje(projeAdi: projeAdi, projeDetay: projeDetay);
-                    await ref.read(projeAsyncProvider.notifier).addProje(newProje);
+                    final newProje = Proje(
+                      projeAdi: projeAdi,
+                      projeDetay: projeDetay,
+                    );
+                    await ref
+                        .read(projeAsyncProvider.notifier)
+                        .addProje(newProje);
+                    if (!context.mounted) return;
                     Navigator.pop(context);
-                    if (context.mounted) {
-                      ScaffoldMessenger.of(
-                        context,
-                      ).showSnackBar(const SnackBar(content: Text('Proje başarıyla eklendi'), backgroundColor: Colors.green));
-                    }
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('Proje başarıyla eklendi'),
+                        backgroundColor: Colors.green,
+                      ),
+                    );
                   } catch (e) {
                     Navigator.pop(context);
-                    if (context.mounted) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text('Ekleme hatası: $e'), backgroundColor: Colors.red, duration: const Duration(seconds: 4)),
-                      );
-                    }
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text('Ekleme hatası: $e'),
+                        backgroundColor: Colors.red,
+                        duration: const Duration(seconds: 4),
+                      ),
+                    );
                   }
                 }
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: const Color(0xFF667eea),
                 foregroundColor: Colors.white,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
               ),
               child: Text(isEdit ? 'Güncelle' : 'Ekle'),
             ),

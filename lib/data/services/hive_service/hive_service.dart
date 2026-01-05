@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_arch/data/models/projemodel/proje_model.dart';
 import 'package:flutter_arch/data/services/app_service.dart';
 import 'package:flutter_arch/data/services/hive_box_service.dart';
@@ -19,7 +20,7 @@ class HiveService extends _$HiveService implements AppService {
 
   @override
   Future<void> cleanAndSaveListToBox(List<Proje> projeler) async {
-    print('cleanAndSaveListToBox çalışıyor');
+    debugPrint('cleanAndSaveListToBox çalışıyor');
 
     await HiveBoxService.projeBoX.clear();
     for (final proje in projeler) {

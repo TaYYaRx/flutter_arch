@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_arch/data/models/projedetaymodel/projedetay_model.dart';
 import 'package:flutter_arch/data/models/projemodel/proje_model.dart';
 import 'package:hive_ce_flutter/adapters.dart';
@@ -15,7 +16,7 @@ class HiveBoxService {
 
     _projeBoxInstance = await Hive.openBox<Proje>(_projeBox);
     if (_projeBoxInstance != null) {
-      print('Hive initialized successfully');
+      debugPrint('Hive initialized successfully');
     }
   }
 

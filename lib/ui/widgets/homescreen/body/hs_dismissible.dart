@@ -3,7 +3,7 @@ import 'package:flutter_arch/data/locator/locator.dart';
 
 import 'package:flutter_arch/data/models/projemodel/proje_model.dart';
 import 'package:flutter_arch/logic/proje_provider/proje_aysnc/proje_async_.dart';
-import 'package:flutter_arch/ui/widgets/homescreen/body/hs_dismissibleBackground.dart';
+import 'package:flutter_arch/ui/widgets/homescreen/body/hs_dismissible_background.dart';
 import 'package:flutter_arch/ui/widgets/homescreen/body/hs_services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

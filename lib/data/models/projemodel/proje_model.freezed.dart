@@ -21,7 +21,6 @@ Proje _$ProjeFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$Proje {
-  // ignore: invalid_annotation_target
   @HiveField(0)
   @JsonKey(name: '_id', includeIfNull: false)
   String get id => throw _privateConstructorUsedError;
@@ -169,7 +168,7 @@ class _$ProjeImpl implements _Proje {
   factory _$ProjeImpl.fromJson(Map<String, dynamic> json) =>
       _$$ProjeImplFromJson(json);
 
-  // ignore: invalid_annotation_target
+ 
   @override
   @HiveField(0)
   @JsonKey(name: '_id', includeIfNull: false)
@@ -225,7 +224,7 @@ abstract class _Proje implements Proje {
 
   factory _Proje.fromJson(Map<String, dynamic> json) = _$ProjeImpl.fromJson;
 
-  // ignore: invalid_annotation_target
+
   @override
   @HiveField(0)
   @JsonKey(name: '_id', includeIfNull: false)

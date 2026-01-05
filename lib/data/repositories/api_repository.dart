@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 class ApiRepository {
@@ -21,13 +22,13 @@ class ApiRepository {
       final uriupdateRoute = '$baseUrlProjeler/$id';
       final uri = Uri.parse(uriupdateRoute);
 
-      print('Updating project: $id');
-      print('Request body: $jsonBody');
+      debugPrint('Updating project: $id');
+      debugPrint('Request body: $jsonBody');
 
       final response = await http.put(uri, headers: {'Content-Type': 'application/json'}, body: jsonBody);
 
-      print('Update response status: ${response.statusCode}');
-      print('Update response body: ${response.body}');
+      debugPrint('Update response status: ${response.statusCode}');
+      debugPrint('Update response body: ${response.body}');
 
       if (response.statusCode == 200) {
         return;
@@ -35,7 +36,7 @@ class ApiRepository {
         throw Exception('Update failed: ${response.statusCode} - ${response.body}');
       }
     } catch (e) {
-      print('Update error: $e');
+      debugPrint('Update error: $e');
       throw Exception('ERROR: Network connection error ::: $e');
     }
   }

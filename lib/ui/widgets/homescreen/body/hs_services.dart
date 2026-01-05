@@ -98,7 +98,7 @@ class HSService {
                       todoStatus = value;
                     });
                   },
-                  activeColor: const Color(0xFF667eea),
+                  activeThumbColor: const Color(0xFF667eea),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
                     side: BorderSide(color: Colors.grey.shade300),
@@ -142,26 +142,25 @@ class HSService {
                     await ref
                         .read(projeAsyncProvider.notifier)
                         .updateProje(updatedProje);
+                    if (!context.mounted) return;
                     Navigator.pop(context);
-                    if (context.mounted) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text('Proje başarıyla güncellendi'),
-                          backgroundColor: Colors.green,
-                        ),
-                      );
-                    }
+
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('Proje başarıyla güncellendi'),
+                        backgroundColor: Colors.green,
+                      ),
+                    );
                   } catch (e) {
                     Navigator.pop(context);
-                    if (context.mounted) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text('Güncelleme hatası: $e'),
-                          backgroundColor: Colors.red,
-                          duration: const Duration(seconds: 4),
-                        ),
-                      );
-                    }
+
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text('Güncelleme hatası: $e'),
+                        backgroundColor: Colors.red,
+                        duration: const Duration(seconds: 4),
+                      ),
+                    );
                   }
                 } else {
                   try {
@@ -173,26 +172,26 @@ class HSService {
                     await ref
                         .read(projeAsyncProvider.notifier)
                         .addProje(newProje);
+                    if (!context.mounted) return;
+
                     Navigator.pop(context);
-                    if (context.mounted) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text('Proje başarıyla eklendi'),
-                          backgroundColor: Colors.green,
-                        ),
-                      );
-                    }
+
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('Proje başarıyla eklendi'),
+                        backgroundColor: Colors.green,
+                      ),
+                    );
                   } catch (e) {
                     Navigator.pop(context);
-                    if (context.mounted) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text('Ekleme hatası: $e'),
-                          backgroundColor: Colors.red,
-                          duration: const Duration(seconds: 4),
-                        ),
-                      );
-                    }
+
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text('Ekleme hatası: $e'),
+                        backgroundColor: Colors.red,
+                        duration: const Duration(seconds: 4),
+                      ),
+                    );
                   }
                 }
               },
