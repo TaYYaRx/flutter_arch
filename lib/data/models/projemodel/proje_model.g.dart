@@ -8,7 +8,7 @@ part of 'proje_model.dart';
 
 class ProjeAdapter extends TypeAdapter<Proje> {
   @override
-  final int typeId = 2;
+  final typeId = 2;
 
   @override
   Proje read(BinaryReader reader) {
@@ -17,7 +17,7 @@ class ProjeAdapter extends TypeAdapter<Proje> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return Proje(
-      id: fields[0] as String,
+      id: fields[0] == null ? '' : fields[0] as String,
       projeAdi: fields[1] as String,
       projeDetay: fields[2] as ProjeDetay,
     );
@@ -51,11 +51,10 @@ class ProjeAdapter extends TypeAdapter<Proje> {
 // **************************************************************************
 
 _$ProjeImpl _$$ProjeImplFromJson(Map<String, dynamic> json) => _$ProjeImpl(
-      id: json['_id'] as String? ?? '',
-      projeAdi: json['projeAdi'] as String,
-      projeDetay:
-          ProjeDetay.fromJson(json['projeDetay'] as Map<String, dynamic>),
-    );
+  id: json['_id'] as String? ?? '',
+  projeAdi: json['projeAdi'] as String,
+  projeDetay: ProjeDetay.fromJson(json['projeDetay'] as Map<String, dynamic>),
+);
 
 Map<String, dynamic> _$$ProjeImplToJson(_$ProjeImpl instance) =>
     <String, dynamic>{

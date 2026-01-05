@@ -1,6 +1,6 @@
 import 'package:flutter_arch/data/models/projedetaymodel/projedetay_model.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:hive/hive.dart';
+import 'package:hive_ce/hive_ce.dart';
 
 part 'proje_model.freezed.dart';
 part 'proje_model.g.dart';

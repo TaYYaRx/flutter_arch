@@ -1,6 +1,6 @@
 import 'package:flutter_arch/data/models/projedetaymodel/projedetay_model.dart';
 import 'package:flutter_arch/data/models/projemodel/proje_model.dart';
-import 'package:hive_flutter/adapters.dart';
+import 'package:hive_ce_flutter/adapters.dart';
 
 class HiveBoxService {
   //Sadece Hive’ı başlatır ve box verir

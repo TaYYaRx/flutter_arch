@@ -12,13 +12,14 @@ String _$projeAsyncHash() => r'7b5237ac6ca86eb029fcf401be1ff0b5a351fe1b';
 @ProviderFor(ProjeAsync)
 final projeAsyncProvider =
     AutoDisposeAsyncNotifierProvider<ProjeAsync, List<Proje>>.internal(
-  ProjeAsync.new,
-  name: r'projeAsyncProvider',
-  debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$projeAsyncHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
+      ProjeAsync.new,
+      name: r'projeAsyncProvider',
+      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+          ? null
+          : _$projeAsyncHash,
+      dependencies: null,
+      allTransitiveDependencies: null,
+    );
 
 typedef _$ProjeAsync = AutoDisposeAsyncNotifier<List<Proje>>;
 // ignore_for_file: type=lint

@@ -12,7 +12,8 @@ part of 'projedetay_model.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
+  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
+);
 
 ProjeDetay _$ProjeDetayFromJson(Map<String, dynamic> json) {
   return _ProjeDetay.fromJson(json);
@@ -42,14 +43,16 @@ mixin _$ProjeDetay {
 /// @nodoc
 abstract class $ProjeDetayCopyWith<$Res> {
   factory $ProjeDetayCopyWith(
-          ProjeDetay value, $Res Function(ProjeDetay) then) =
-      _$ProjeDetayCopyWithImpl<$Res, ProjeDetay>;
+    ProjeDetay value,
+    $Res Function(ProjeDetay) then,
+  ) = _$ProjeDetayCopyWithImpl<$Res, ProjeDetay>;
   @useResult
-  $Res call(
-      {@HiveField(0) bool todoStatus,
-      @HiveField(1) double kuyuBoy,
-      @HiveField(2) double kuyuDerinlik,
-      @HiveField(3) DateTime createdAt});
+  $Res call({
+    @HiveField(0) bool todoStatus,
+    @HiveField(1) double kuyuBoy,
+    @HiveField(2) double kuyuDerinlik,
+    @HiveField(3) DateTime createdAt,
+  });
 }
 
 /// @nodoc
@@ -72,24 +75,27 @@ class _$ProjeDetayCopyWithImpl<$Res, $Val extends ProjeDetay>
     Object? kuyuDerinlik = null,
     Object? createdAt = null,
   }) {
-    return _then(_value.copyWith(
-      todoStatus: null == todoStatus
-          ? _value.todoStatus
-          : todoStatus // ignore: cast_nullable_to_non_nullable
-              as bool,
-      kuyuBoy: null == kuyuBoy
-          ? _value.kuyuBoy
-          : kuyuBoy // ignore: cast_nullable_to_non_nullable
-              as double,
-      kuyuDerinlik: null == kuyuDerinlik
-          ? _value.kuyuDerinlik
-          : kuyuDerinlik // ignore: cast_nullable_to_non_nullable
-              as double,
-      createdAt: null == createdAt
-          ? _value.createdAt
-          : createdAt // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-    ) as $Val);
+    return _then(
+      _value.copyWith(
+            todoStatus: null == todoStatus
+                ? _value.todoStatus
+                : todoStatus // ignore: cast_nullable_to_non_nullable
+                      as bool,
+            kuyuBoy: null == kuyuBoy
+                ? _value.kuyuBoy
+                : kuyuBoy // ignore: cast_nullable_to_non_nullable
+                      as double,
+            kuyuDerinlik: null == kuyuDerinlik
+                ? _value.kuyuDerinlik
+                : kuyuDerinlik // ignore: cast_nullable_to_non_nullable
+                      as double,
+            createdAt: null == createdAt
+                ? _value.createdAt
+                : createdAt // ignore: cast_nullable_to_non_nullable
+                      as DateTime,
+          )
+          as $Val,
+    );
   }
 }
 
@@ -97,15 +103,17 @@ class _$ProjeDetayCopyWithImpl<$Res, $Val extends ProjeDetay>
 abstract class _$$ProjeDetayImplCopyWith<$Res>
     implements $ProjeDetayCopyWith<$Res> {
   factory _$$ProjeDetayImplCopyWith(
-          _$ProjeDetayImpl value, $Res Function(_$ProjeDetayImpl) then) =
-      __$$ProjeDetayImplCopyWithImpl<$Res>;
+    _$ProjeDetayImpl value,
+    $Res Function(_$ProjeDetayImpl) then,
+  ) = __$$ProjeDetayImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {@HiveField(0) bool todoStatus,
-      @HiveField(1) double kuyuBoy,
-      @HiveField(2) double kuyuDerinlik,
-      @HiveField(3) DateTime createdAt});
+  $Res call({
+    @HiveField(0) bool todoStatus,
+    @HiveField(1) double kuyuBoy,
+    @HiveField(2) double kuyuDerinlik,
+    @HiveField(3) DateTime createdAt,
+  });
 }
 
 /// @nodoc
@@ -113,8 +121,9 @@ class __$$ProjeDetayImplCopyWithImpl<$Res>
     extends _$ProjeDetayCopyWithImpl<$Res, _$ProjeDetayImpl>
     implements _$$ProjeDetayImplCopyWith<$Res> {
   __$$ProjeDetayImplCopyWithImpl(
-      _$ProjeDetayImpl _value, $Res Function(_$ProjeDetayImpl) _then)
-      : super(_value, _then);
+    _$ProjeDetayImpl _value,
+    $Res Function(_$ProjeDetayImpl) _then,
+  ) : super(_value, _then);
 
   /// Create a copy of ProjeDetay
   /// with the given fields replaced by the non-null parameter values.
@@ -126,35 +135,38 @@ class __$$ProjeDetayImplCopyWithImpl<$Res>
     Object? kuyuDerinlik = null,
     Object? createdAt = null,
   }) {
-    return _then(_$ProjeDetayImpl(
-      todoStatus: null == todoStatus
-          ? _value.todoStatus
-          : todoStatus // ignore: cast_nullable_to_non_nullable
-              as bool,
-      kuyuBoy: null == kuyuBoy
-          ? _value.kuyuBoy
-          : kuyuBoy // ignore: cast_nullable_to_non_nullable
-              as double,
-      kuyuDerinlik: null == kuyuDerinlik
-          ? _value.kuyuDerinlik
-          : kuyuDerinlik // ignore: cast_nullable_to_non_nullable
-              as double,
-      createdAt: null == createdAt
-          ? _value.createdAt
-          : createdAt // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-    ));
+    return _then(
+      _$ProjeDetayImpl(
+        todoStatus: null == todoStatus
+            ? _value.todoStatus
+            : todoStatus // ignore: cast_nullable_to_non_nullable
+                  as bool,
+        kuyuBoy: null == kuyuBoy
+            ? _value.kuyuBoy
+            : kuyuBoy // ignore: cast_nullable_to_non_nullable
+                  as double,
+        kuyuDerinlik: null == kuyuDerinlik
+            ? _value.kuyuDerinlik
+            : kuyuDerinlik // ignore: cast_nullable_to_non_nullable
+                  as double,
+        createdAt: null == createdAt
+            ? _value.createdAt
+            : createdAt // ignore: cast_nullable_to_non_nullable
+                  as DateTime,
+      ),
+    );
   }
 }
 
 /// @nodoc
 @JsonSerializable()
 class _$ProjeDetayImpl implements _ProjeDetay {
-  const _$ProjeDetayImpl(
-      {@HiveField(0) required this.todoStatus,
-      @HiveField(1) this.kuyuBoy = 0,
-      @HiveField(2) this.kuyuDerinlik = 0,
-      @HiveField(3) required this.createdAt});
+  const _$ProjeDetayImpl({
+    @HiveField(0) required this.todoStatus,
+    @HiveField(1) this.kuyuBoy = 0,
+    @HiveField(2) this.kuyuDerinlik = 0,
+    @HiveField(3) required this.createdAt,
+  });
 
   factory _$ProjeDetayImpl.fromJson(Map<String, dynamic> json) =>
       _$$ProjeDetayImplFromJson(json);
@@ -208,18 +220,17 @@ class _$ProjeDetayImpl implements _ProjeDetay {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$ProjeDetayImplToJson(
-      this,
-    );
+    return _$$ProjeDetayImplToJson(this);
   }
 }
 
 abstract class _ProjeDetay implements ProjeDetay {
-  const factory _ProjeDetay(
-      {@HiveField(0) required final bool todoStatus,
-      @HiveField(1) final double kuyuBoy,
-      @HiveField(2) final double kuyuDerinlik,
-      @HiveField(3) required final DateTime createdAt}) = _$ProjeDetayImpl;
+  const factory _ProjeDetay({
+    @HiveField(0) required final bool todoStatus,
+    @HiveField(1) final double kuyuBoy,
+    @HiveField(2) final double kuyuDerinlik,
+    @HiveField(3) required final DateTime createdAt,
+  }) = _$ProjeDetayImpl;
 
   factory _ProjeDetay.fromJson(Map<String, dynamic> json) =
       _$ProjeDetayImpl.fromJson;

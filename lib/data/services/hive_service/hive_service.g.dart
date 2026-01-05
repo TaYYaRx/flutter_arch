@@ -12,13 +12,14 @@ String _$hiveServiceHash() => r'501367af5cf7d90e5d001d5f590565b4136d7fe8';
 @ProviderFor(HiveService)
 final hiveServiceProvider =
     AutoDisposeAsyncNotifierProvider<HiveService, List>.internal(
-  HiveService.new,
-  name: r'hiveServiceProvider',
-  debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$hiveServiceHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
+      HiveService.new,
+      name: r'hiveServiceProvider',
+      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+          ? null
+          : _$hiveServiceHash,
+      dependencies: null,
+      allTransitiveDependencies: null,
+    );
 
 typedef _$HiveService = AutoDisposeAsyncNotifier<List>;
 // ignore_for_file: type=lint

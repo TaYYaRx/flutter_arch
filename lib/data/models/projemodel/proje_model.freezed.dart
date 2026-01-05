@@ -12,7 +12,8 @@ part of 'proje_model.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
+  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
+);
 
 Proje _$ProjeFromJson(Map<String, dynamic> json) {
   return _Proje.fromJson(json);
@@ -20,6 +21,7 @@ Proje _$ProjeFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$Proje {
+  // ignore: invalid_annotation_target
   @HiveField(0)
   @JsonKey(name: '_id', includeIfNull: false)
   String get id => throw _privateConstructorUsedError;
@@ -42,10 +44,11 @@ abstract class $ProjeCopyWith<$Res> {
   factory $ProjeCopyWith(Proje value, $Res Function(Proje) then) =
       _$ProjeCopyWithImpl<$Res, Proje>;
   @useResult
-  $Res call(
-      {@HiveField(0) @JsonKey(name: '_id', includeIfNull: false) String id,
-      @HiveField(1) String projeAdi,
-      @HiveField(2) ProjeDetay projeDetay});
+  $Res call({
+    @HiveField(0) @JsonKey(name: '_id', includeIfNull: false) String id,
+    @HiveField(1) String projeAdi,
+    @HiveField(2) ProjeDetay projeDetay,
+  });
 
   $ProjeDetayCopyWith<$Res> get projeDetay;
 }
@@ -69,20 +72,23 @@ class _$ProjeCopyWithImpl<$Res, $Val extends Proje>
     Object? projeAdi = null,
     Object? projeDetay = null,
   }) {
-    return _then(_value.copyWith(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String,
-      projeAdi: null == projeAdi
-          ? _value.projeAdi
-          : projeAdi // ignore: cast_nullable_to_non_nullable
-              as String,
-      projeDetay: null == projeDetay
-          ? _value.projeDetay
-          : projeDetay // ignore: cast_nullable_to_non_nullable
-              as ProjeDetay,
-    ) as $Val);
+    return _then(
+      _value.copyWith(
+            id: null == id
+                ? _value.id
+                : id // ignore: cast_nullable_to_non_nullable
+                      as String,
+            projeAdi: null == projeAdi
+                ? _value.projeAdi
+                : projeAdi // ignore: cast_nullable_to_non_nullable
+                      as String,
+            projeDetay: null == projeDetay
+                ? _value.projeDetay
+                : projeDetay // ignore: cast_nullable_to_non_nullable
+                      as ProjeDetay,
+          )
+          as $Val,
+    );
   }
 
   /// Create a copy of Proje
@@ -99,14 +105,16 @@ class _$ProjeCopyWithImpl<$Res, $Val extends Proje>
 /// @nodoc
 abstract class _$$ProjeImplCopyWith<$Res> implements $ProjeCopyWith<$Res> {
   factory _$$ProjeImplCopyWith(
-          _$ProjeImpl value, $Res Function(_$ProjeImpl) then) =
-      __$$ProjeImplCopyWithImpl<$Res>;
+    _$ProjeImpl value,
+    $Res Function(_$ProjeImpl) then,
+  ) = __$$ProjeImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {@HiveField(0) @JsonKey(name: '_id', includeIfNull: false) String id,
-      @HiveField(1) String projeAdi,
-      @HiveField(2) ProjeDetay projeDetay});
+  $Res call({
+    @HiveField(0) @JsonKey(name: '_id', includeIfNull: false) String id,
+    @HiveField(1) String projeAdi,
+    @HiveField(2) ProjeDetay projeDetay,
+  });
 
   @override
   $ProjeDetayCopyWith<$Res> get projeDetay;
@@ -117,8 +125,9 @@ class __$$ProjeImplCopyWithImpl<$Res>
     extends _$ProjeCopyWithImpl<$Res, _$ProjeImpl>
     implements _$$ProjeImplCopyWith<$Res> {
   __$$ProjeImplCopyWithImpl(
-      _$ProjeImpl _value, $Res Function(_$ProjeImpl) _then)
-      : super(_value, _then);
+    _$ProjeImpl _value,
+    $Res Function(_$ProjeImpl) _then,
+  ) : super(_value, _then);
 
   /// Create a copy of Proje
   /// with the given fields replaced by the non-null parameter values.
@@ -129,34 +138,38 @@ class __$$ProjeImplCopyWithImpl<$Res>
     Object? projeAdi = null,
     Object? projeDetay = null,
   }) {
-    return _then(_$ProjeImpl(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String,
-      projeAdi: null == projeAdi
-          ? _value.projeAdi
-          : projeAdi // ignore: cast_nullable_to_non_nullable
-              as String,
-      projeDetay: null == projeDetay
-          ? _value.projeDetay
-          : projeDetay // ignore: cast_nullable_to_non_nullable
-              as ProjeDetay,
-    ));
+    return _then(
+      _$ProjeImpl(
+        id: null == id
+            ? _value.id
+            : id // ignore: cast_nullable_to_non_nullable
+                  as String,
+        projeAdi: null == projeAdi
+            ? _value.projeAdi
+            : projeAdi // ignore: cast_nullable_to_non_nullable
+                  as String,
+        projeDetay: null == projeDetay
+            ? _value.projeDetay
+            : projeDetay // ignore: cast_nullable_to_non_nullable
+                  as ProjeDetay,
+      ),
+    );
   }
 }
 
 /// @nodoc
 @JsonSerializable()
 class _$ProjeImpl implements _Proje {
-  const _$ProjeImpl(
-      {@HiveField(0) @JsonKey(name: '_id', includeIfNull: false) this.id = '',
-      @HiveField(1) required this.projeAdi,
-      @HiveField(2) required this.projeDetay});
+  const _$ProjeImpl({
+    @HiveField(0) @JsonKey(name: '_id', includeIfNull: false) this.id = '',
+    @HiveField(1) required this.projeAdi,
+    @HiveField(2) required this.projeDetay,
+  });
 
   factory _$ProjeImpl.fromJson(Map<String, dynamic> json) =>
       _$$ProjeImplFromJson(json);
 
+  // ignore: invalid_annotation_target
   @override
   @HiveField(0)
   @JsonKey(name: '_id', includeIfNull: false)
@@ -199,22 +212,20 @@ class _$ProjeImpl implements _Proje {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$ProjeImplToJson(
-      this,
-    );
+    return _$$ProjeImplToJson(this);
   }
 }
 
 abstract class _Proje implements Proje {
-  const factory _Proje(
-      {@HiveField(0)
-      @JsonKey(name: '_id', includeIfNull: false)
-      final String id,
-      @HiveField(1) required final String projeAdi,
-      @HiveField(2) required final ProjeDetay projeDetay}) = _$ProjeImpl;
+  const factory _Proje({
+    @HiveField(0) @JsonKey(name: '_id', includeIfNull: false) final String id,
+    @HiveField(1) required final String projeAdi,
+    @HiveField(2) required final ProjeDetay projeDetay,
+  }) = _$ProjeImpl;
 
   factory _Proje.fromJson(Map<String, dynamic> json) = _$ProjeImpl.fromJson;
 
+  // ignore: invalid_annotation_target
   @override
   @HiveField(0)
   @JsonKey(name: '_id', includeIfNull: false)

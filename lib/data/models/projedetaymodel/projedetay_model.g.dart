@@ -8,7 +8,7 @@ part of 'projedetay_model.dart';
 
 class ProjeDetayAdapter extends TypeAdapter<ProjeDetay> {
   @override
-  final int typeId = 1;
+  final typeId = 1;
 
   @override
   ProjeDetay read(BinaryReader reader) {
@@ -18,8 +18,8 @@ class ProjeDetayAdapter extends TypeAdapter<ProjeDetay> {
     };
     return ProjeDetay(
       todoStatus: fields[0] as bool,
-      kuyuBoy: fields[1] as double,
-      kuyuDerinlik: fields[2] as double,
+      kuyuBoy: fields[1] == null ? 0 : (fields[1] as num).toDouble(),
+      kuyuDerinlik: fields[2] == null ? 0 : (fields[2] as num).toDouble(),
       createdAt: fields[3] as DateTime,
     );
   }
