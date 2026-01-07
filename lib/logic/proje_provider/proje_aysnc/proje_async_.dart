@@ -14,9 +14,27 @@ class ProjeAsync extends _$ProjeAsync {
   @override
   FutureOr<List<Proje>> build() async {
     // 1. Önce yerel veritabanındaki veriyi getir (Hızlı yükleme)
-    final localProjeler = ref.read(hiveServiceProvider.notifier).getAllListFromBox();
+    final localProjeler = ref
+        .read(hiveServiceProvider.notifier)
+        .getAllListFromBox();
 
-    // 2. Arka planda API'den güncel veriyi çek ve yereli güncelle
+    // 2. Eğer local DB boşsa, ilk defa açılıyordur, API'den çek
+    if (localProjeler.isEmpty) {
+      try {
+        final remoteData = await locator<ApiService>().fetchProjeler();
+        await ref
+            .read(hiveServiceProvider.notifier)
+            .cleanAndSaveListToBox(remoteData);
+        // 3. Arka planda güncellemeleri devam ettir
+        _fetchFromRemote();
+        return remoteData;
+      } catch (e) {
+        // İlk açılışta hata varsa göster
+        throw e;
+      }
+    }
+
+    // 3. Local data varsa göster ve arka planda sync yap
     _fetchFromRemote();
     return localProjeler;
   }
@@ -27,19 +45,33 @@ class ProjeAsync extends _$ProjeAsync {
       //Verileri Remote kaynaktan getir.
       final remoteData = await locator<ApiService>().fetchProjeler();
       //Verileri localDB'e ekle
-      await ref.read(hiveServiceProvider.notifier).cleanAndSaveListToBox(remoteData);
+      await ref
+          .read(hiveServiceProvider.notifier)
+          .cleanAndSaveListToBox(remoteData);
       state = AsyncData(remoteData);
     } catch (e) {
-      // Hata yönetimi (Opsiyonel: UI'a hata göstermek için)
-      state = AsyncError(e, StackTrace.current);
+      // Hata olduğunda mevcut local data'yı koru
+      // Sadece log'la, state'i error'a çekme
+      debugPrint('Veri getirme hatası: $e');
+      // NOT: state = AsyncError(...) kullanmıyoruz
+      // Çünkü local DB'de data varsa onu göstermeye devam etmek istiyoruz
     }
+  }
+
+  /// Manuel retry için public metod
+  /// Kullanıcı "Tekrar Dene" butonuna bastığında bu çağrılır
+  Future<void> refreshFromRemote() async {
+    await _fetchFromRemote();
   }
 
   Future<void> updateProje(Proje proje) async {
     final previousState = await future;
 
     // 1. Adım: Yerel State'i Hemen Güncelle (Optimistic update)
-    final updatedProje = proje.copyWith(projeAdi: proje.projeAdi, projeDetay: proje.projeDetay);
+    final updatedProje = proje.copyWith(
+      projeAdi: proje.projeAdi,
+      projeDetay: proje.projeDetay,
+    );
     final updatedList = [
       for (final p in previousState)
         if (p.id == proje.id) updatedProje else p,
@@ -51,12 +83,16 @@ class ProjeAsync extends _$ProjeAsync {
       await locator<ApiService>().updateProje(updatedProje: updatedProje);
 
       // 3. Adım: Başarılıysa Local DB'yi de güncelle
-      await ref.read(hiveServiceProvider.notifier).updateItemFromBox(updatedProje);
-    } catch (e) {
+      await ref
+          .read(hiveServiceProvider.notifier)
+          .updateItemFromBox(updatedProje);
+    } catch (e, stackTrace) {
       // Hata durumunda rollback
       debugPrint('Update error: $e');
       state = AsyncData(previousState);
-      rethrow; // Hatayı UI'a ilet
+      // Hatayı state'e kaydet ki UI gösterebilsin
+      state = AsyncError(e, stackTrace);
+      // Not: rethrow kullanmıyoruz çünkü AsyncError zaten UI'da gösterilecek
     }
   }
 
@@ -73,9 +109,13 @@ class ProjeAsync extends _$ProjeAsync {
 
       // 3. Adım: Başarılıysa Local DB'ye de ekle
       await ref.read(hiveServiceProvider.notifier).addItemToBox(proje);
-    } catch (e) {
+    } catch (e, stackTrace) {
       // Hata durumunda önceki state'e geri dön
+      debugPrint('Add error: $e');
       state = AsyncData(previousState);
+      // Hatayı state'e kaydet ki UI gösterebilsin
+      state = AsyncError(e, stackTrace);
+      // Not: rethrow kullanmıyoruz çünkü AsyncError zaten UI'da gösterilecek
     }
   }
 
@@ -92,9 +132,13 @@ class ProjeAsync extends _$ProjeAsync {
 
       // 3. Adım: Başarılıysa Local DB'den de sil
       await ref.read(hiveServiceProvider.notifier).deleteItemFromBox(id);
-    } catch (e) {
+    } catch (e, stackTrace) {
       // Hata durumunda önceki state'e geri dön
+      debugPrint('Delete error: $e');
       state = AsyncData(previousState);
+      // Hatayı state'e kaydet ki UI gösterebilsin
+      state = AsyncError(e, stackTrace);
+      // Not: rethrow kullanmıyoruz çünkü AsyncError zaten UI'da gösterilecek
     }
   }
 }

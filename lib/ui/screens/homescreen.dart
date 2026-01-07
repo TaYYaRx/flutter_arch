@@ -4,6 +4,7 @@ import 'package:flutter_arch/ui/widgets/homescreen/appbar/hs_appbar.dart';
 import 'package:flutter_arch/ui/widgets/homescreen/body/hs_body.dart';
 import 'package:flutter_arch/ui/widgets/homescreen/body/hs_emptystate.dart';
 import 'package:flutter_arch/ui/widgets/homescreen/fab/hs_fab.dart';
+import 'package:flutter_arch/ui/widgets/common/error_display_helper.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class MyHomePageT extends StatelessWidget {
@@ -26,27 +27,13 @@ class MyHomePageT extends StatelessWidget {
                 }
               },
               error: (error, stackTrace) {
-                return Center(
-                  child: Column(
-                    children: [
-                      const Icon(
-                        Icons.error_outline,
-                        size: 64,
-                        color: Colors.red,
-                      ),
-                      const SizedBox(height: 16),
-                      Text(
-                        'Bir hata oluştu',
-                        style: Theme.of(context).textTheme.titleLarge,
-                      ),
-                      const SizedBox(height: 8),
-                      Text(
-                        error.toString(),
-                        textAlign: TextAlign.center,
-                        style: Theme.of(context).textTheme.bodyMedium,
-                      ),
-                    ],
-                  ),
+                // Exception tipine göre kullanıcı dostu hata göster
+                return ErrorDisplayWidget(
+                  error: error,
+                  onRetry: () {
+                    // Retry: sadece remote fetch'i tekrar dene, mevcut data'yı koru
+                    ref.read(projeAsyncProvider.notifier).refreshFromRemote();
+                  },
                 );
               },
               loading: () => const Center(child: CircularProgressIndicator()),

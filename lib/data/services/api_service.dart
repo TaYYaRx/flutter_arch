@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_arch/data/locator/locator.dart';
 import 'package:flutter_arch/data/models/projemodel/proje_model.dart';
 import 'package:flutter_arch/data/repositories/api_repository.dart';
+import 'package:flutter_arch/data/exceptions/api_exception.dart';
 
 class ApiService {
   //Veriyi Ham String olarak verir.
@@ -19,7 +20,9 @@ class ApiService {
       //Tüm Projeleri içeren bir listeye map metodu ile dönüşümü yapılıyor.
       final List projelerJson = decoded['projeler'];
 
-      return projelerJson.map((p) => Proje.fromJson(p as Map<String, dynamic>)).toList();
+      return projelerJson
+          .map((p) => Proje.fromJson(p as Map<String, dynamic>))
+          .toList();
     } catch (e, s) {
       debugPrint('fetchProjeler error: $e');
       debugPrintStack(stackTrace: s);
@@ -28,22 +31,61 @@ class ApiService {
   }
 
   Future<void> updateProje({required Proje updatedProje}) async {
-    final body = jsonEncode(updatedProje.toJson());
-    locator<ApiRepository>().updateProje(id: updatedProje.id, jsonBody: body);
+    try {
+      final body = jsonEncode(updatedProje.toJson());
+      await locator<ApiRepository>().updateProje(
+        id: updatedProje.id,
+        jsonBody: body,
+      );
+    } on ApiException {
+      // ApiException'ları olduğu gibi yukarı fırlat
+      rethrow;
+    } catch (e) {
+      debugPrint('Unexpected error in updateProje: $e');
+      throw ApiException(
+        message: 'Proje güncellenirken bir hata oluştu',
+        errorType: 'UnexpectedError',
+        details: {'error': e.toString(), 'projectId': updatedProje.id},
+      );
+    }
   }
 
   Future<void> addProje({required Proje proje}) async {
-    // Convert to JSON and remove _id if it's empty to let MongoDB generate it
-    final jsonMap = proje.toJson();
-    if (jsonMap['_id'] == null || jsonMap['_id'] == '') {
-      jsonMap.remove('_id');
+    try {
+      // Convert to JSON and remove _id if it's empty to let MongoDB generate it
+      final jsonMap = proje.toJson();
+      if (jsonMap['_id'] == null || jsonMap['_id'] == '') {
+        jsonMap.remove('_id');
+      }
+      final body = jsonEncode(jsonMap);
+      await locator<ApiRepository>().addProje(jsonBody: body);
+    } on ApiException {
+      // ApiException'ları olduğu gibi yukarı fırlat
+      rethrow;
+    } catch (e) {
+      debugPrint('Unexpected error in addProje: $e');
+      throw ApiException(
+        message: 'Proje eklenirken bir hata oluştu',
+        errorType: 'UnexpectedError',
+        details: {'error': e.toString()},
+      );
     }
-    final body = jsonEncode(jsonMap);
-    await locator<ApiRepository>().addProje(jsonBody: body);
   }
 
   Future<void> deleteProje({required String id}) async {
-    await locator<ApiRepository>().deleteProje(id: id);
+    try {
+      await locator<ApiRepository>().deleteProje(id: id);
+    } on ApiException {
+      // ApiException'ları olduğu gibi yukarı fırlat
+      rethrow;
+    } catch (e) {
+      debugPrint('Unexpected error in deleteProje: $e');
+      throw ApiException(
+        message: 'Proje silinirken bir hata oluştu',
+        errorType: 'UnexpectedError',
+        details: {'error': e.toString(), 'projectId': id},
+      );
+    }
   }
 }
 
