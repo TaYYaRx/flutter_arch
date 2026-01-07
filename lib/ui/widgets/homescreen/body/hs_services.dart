@@ -7,7 +7,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 class HSService {
   Future<bool?> showDeleteConfirmation(
     BuildContext context,
-    WidgetRef ref,
     Proje proje,
   ) async {
     return showDialog<bool>(
@@ -31,33 +30,7 @@ class HSService {
             child: const Text('İptal'),
           ),
           ElevatedButton(
-            onPressed: () async {
-              try {
-                await ref
-                    .read(projeAsyncProvider.notifier)
-                    .deleteProje(proje.id);
-                if (context.mounted) {
-                  Navigator.pop(context, true);
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text('Proje başarıyla silindi'),
-                      backgroundColor: Colors.green,
-                    ),
-                  );
-                }
-              } catch (e) {
-                if (context.mounted) {
-                  Navigator.pop(context, false);
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text('Silme hatası: $e'),
-                      backgroundColor: Colors.red,
-                      duration: const Duration(seconds: 10),
-                    ),
-                  );
-                }
-              }
-            },
+            onPressed: () => Navigator.pop(context, true),
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.red,
               foregroundColor: Colors.white,
@@ -84,6 +57,7 @@ class HSService {
       text: proje?.projeDetay.kuyuDerinlik.toString() ?? '',
     );
     bool todoStatus = proje?.projeDetay.todoStatus ?? false;
+    String? projeAdiError;
 
     showDialog(
       context: context,
@@ -121,9 +95,16 @@ class HSService {
                 TextField(
                   controller: projeAdiController,
                   autofocus: false,
+                  onChanged: (_) {
+                    // Kullanıcı yazdıkça hatayı temizle
+                    if (projeAdiError != null) {
+                      setState(() => projeAdiError = null);
+                    }
+                  },
                   decoration: InputDecoration(
                     labelText: 'Proje Adı',
                     prefixIcon: const Icon(Icons.folder),
+                    errorText: projeAdiError,
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
                     ),
@@ -186,9 +167,16 @@ class HSService {
                 final kuyuDerinlik =
                     double.tryParse(kuyuDerinlikController.text) ?? 0;
 
+                // Validasyon
                 if (projeAdi.isEmpty) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Proje adı boş olamaz')),
+                  setState(() => projeAdiError = 'Proje adı boş olamaz');
+                  return;
+                }
+
+                if (projeAdi.length < 3) {
+                  setState(
+                    () =>
+                        projeAdiError = 'Proje adı en az 3 karakter olmalıdır',
                   );
                   return;
                 }

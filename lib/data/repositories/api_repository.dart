@@ -2,6 +2,7 @@ import 'package:http/http.dart' as http;
 
 class ApiRepository {
   static const String baseUrlProjeler = 'http://192.168.1.4:3000/projeler';
+  static const Duration requestTimeout = Duration(seconds: 30);
 
   Future<String> fetchProjelerFromApi() async {
     try {
@@ -86,7 +87,8 @@ class ApiRepository {
         throw Exception('Failed to delete project');
       }
     } catch (e) {
-      throw Exception('ERROR: Network connection error ::: $e');
+      rethrow;
+      // throw Exception('ERROR: Network connection error ::: $e');
     }
   }
 }

@@ -21,7 +21,7 @@ class ProjeAsync extends _$ProjeAsync {
         .read(hiveServiceProvider.notifier)
         .getAllListFromBox();
 
-    // 2. Periyodik sync başlat (opsiyonel)
+    // 2. Periyodik sync başlat (opsiyonel) Yani 10 dk bir state güncellenecek
     _startPeriodicSync();
 
     // 3. İlk senkronizasyonu tetikle
@@ -72,7 +72,7 @@ class ProjeAsync extends _$ProjeAsync {
 
   void _startPeriodicSync() {
     _syncTimer = Timer.periodic(
-      const Duration(minutes: 5),
+      const Duration(minutes: 10),
       (_) => _fetchFromRemote(),
     );
   }
@@ -143,6 +143,7 @@ class ProjeAsync extends _$ProjeAsync {
     } catch (e) {
       // Hata durumunda önceki state'e geri dön
       state = AsyncData(previousState);
+      rethrow; // Hatayı UI'a ilet
     }
   }
 }
