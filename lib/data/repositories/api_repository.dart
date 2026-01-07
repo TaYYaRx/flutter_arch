@@ -16,7 +16,10 @@ class ApiRepository {
     }
   }
 
-  Future<void> updateProje({required String id, required String jsonBody}) async {
+  Future<void> updateProje({
+    required String id,
+    required String jsonBody,
+  }) async {
     try {
       final uriupdateRoute = '$baseUrlProjeler/$id';
       final uri = Uri.parse(uriupdateRoute);
@@ -24,7 +27,11 @@ class ApiRepository {
       print('Updating project: $id');
       print('Request body: $jsonBody');
 
-      final response = await http.put(uri, headers: {'Content-Type': 'application/json'}, body: jsonBody);
+      final response = await http.put(
+        uri,
+        headers: {'Content-Type': 'application/json'},
+        body: jsonBody,
+      );
 
       print('Update response status: ${response.statusCode}');
       print('Update response body: ${response.body}');
@@ -32,10 +39,17 @@ class ApiRepository {
       if (response.statusCode == 200) {
         return;
       } else {
-        throw Exception('Update failed: ${response.statusCode} - ${response.body}');
+        throw Exception(
+          'Update failed: ${response.statusCode} - ${response.body}',
+        );
       }
     } catch (e) {
       print('Update error: $e');
+      // API'den gelen hatayı olduğu gibi ilet
+      if (e.toString().contains('Update failed')) {
+        rethrow;
+      }
+      // Sadece gerçek network hataları için yeni Exception oluştur
       throw Exception('ERROR: Network connection error ::: $e');
     }
   }
@@ -43,7 +57,11 @@ class ApiRepository {
   Future<void> addProje({required String jsonBody}) async {
     try {
       final uri = Uri.parse(baseUrlProjeler);
-      final response = await http.post(uri, headers: {'Content-Type': 'application/json'}, body: jsonBody);
+      final response = await http.post(
+        uri,
+        headers: {'Content-Type': 'application/json'},
+        body: jsonBody,
+      );
 
       if (response.statusCode == 200 || response.statusCode == 201) {
         return;

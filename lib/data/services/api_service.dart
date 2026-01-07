@@ -19,7 +19,9 @@ class ApiService {
       //Tüm Projeleri içeren bir listeye map metodu ile dönüşümü yapılıyor.
       final List projelerJson = decoded['projeler'];
 
-      return projelerJson.map((p) => Proje.fromJson(p as Map<String, dynamic>)).toList();
+      return projelerJson
+          .map((p) => Proje.fromJson(p as Map<String, dynamic>))
+          .toList();
     } catch (e, s) {
       debugPrint('fetchProjeler error: $e');
       debugPrintStack(stackTrace: s);
@@ -29,7 +31,10 @@ class ApiService {
 
   Future<void> updateProje({required Proje updatedProje}) async {
     final body = jsonEncode(updatedProje.toJson());
-    locator<ApiRepository>().updateProje(id: updatedProje.id, jsonBody: body);
+    await locator<ApiRepository>().updateProje(
+      id: updatedProje.id,
+      jsonBody: body,
+    );
   }
 
   Future<void> addProje({required Proje proje}) async {

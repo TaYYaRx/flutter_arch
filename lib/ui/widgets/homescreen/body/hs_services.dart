@@ -5,6 +5,73 @@ import 'package:flutter_arch/logic/proje_provider/proje_aysnc/proje_async_.dart'
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class HSService {
+  Future<bool?> showDeleteConfirmation(
+    BuildContext context,
+    WidgetRef ref,
+    Proje proje,
+  ) async {
+    return showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        title: const Row(
+          children: [
+            Icon(Icons.warning_amber_rounded, color: Colors.orange, size: 28),
+            SizedBox(width: 12),
+            Text('Projeyi Sil'),
+          ],
+        ),
+        content: Text(
+          '"${proje.projeAdi}" projesini silmek istediğinizden emin misiniz?',
+          style: const TextStyle(fontSize: 16),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context, false),
+            child: const Text('İptal'),
+          ),
+          ElevatedButton(
+            onPressed: () async {
+              try {
+                await ref
+                    .read(projeAsyncProvider.notifier)
+                    .deleteProje(proje.id);
+                if (context.mounted) {
+                  Navigator.pop(context, true);
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('Proje başarıyla silindi'),
+                      backgroundColor: Colors.green,
+                    ),
+                  );
+                }
+              } catch (e) {
+                if (context.mounted) {
+                  Navigator.pop(context, false);
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('Silme hatası: $e'),
+                      backgroundColor: Colors.red,
+                      duration: const Duration(seconds: 10),
+                    ),
+                  );
+                }
+              }
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.red,
+              foregroundColor: Colors.white,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8),
+              ),
+            ),
+            child: const Text('Sil'),
+          ),
+        ],
+      ),
+    );
+  }
+
   void showAddEditDialog(BuildContext context, WidgetRef ref, {Proje? proje}) {
     final isEdit = proje != null;
     final projeAdiController = TextEditingController(
@@ -142,8 +209,8 @@ class HSService {
                     await ref
                         .read(projeAsyncProvider.notifier)
                         .updateProje(updatedProje);
-                    Navigator.pop(context);
                     if (context.mounted) {
+                      Navigator.pop(context); // Sadece başarılıysa kapat
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(
                           content: Text('Proje başarıyla güncellendi'),
@@ -152,13 +219,14 @@ class HSService {
                       );
                     }
                   } catch (e) {
-                    Navigator.pop(context);
                     if (context.mounted) {
+                      //widget hala ayaktaysa ....
+                      Navigator.pop(context);
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
                           content: Text('Güncelleme hatası: $e'),
                           backgroundColor: Colors.red,
-                          duration: const Duration(seconds: 4),
+                          duration: const Duration(seconds: 10),
                         ),
                       );
                     }
@@ -172,9 +240,12 @@ class HSService {
                     );
                     await ref
                         .read(projeAsyncProvider.notifier)
-                        .addProje(newProje);
-                    Navigator.pop(context);
+                        .addProje(
+                          newProje,
+                        ); //ŞAYET BURADA BİR HATA ÇIKARSA CATCH yakalayacak.
+
                     if (context.mounted) {
+                      Navigator.pop(context);
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(
                           content: Text('Proje başarıyla eklendi'),
@@ -183,8 +254,8 @@ class HSService {
                       );
                     }
                   } catch (e) {
-                    Navigator.pop(context);
                     if (context.mounted) {
+                      Navigator.pop(context);
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
                           content: Text('Ekleme hatası: $e'),

@@ -35,7 +35,7 @@ class HSDismissible extends StatelessWidget {
           locator<HSService>().showAddEditDialog(context, ref, proje: proje);
           return false;
         } else {
-          return await _showDeleteConfirmation(context, ref, proje);
+          return await locator<HSService>().showDeleteConfirmation(context, ref, proje);
           // Silme Sağa kaydırma eylemi
         }
       },
@@ -154,47 +154,5 @@ class HSDismissible extends StatelessWidget {
     );
   }
 
-  Future<bool?> _showDeleteConfirmation(
-    BuildContext context,
-    WidgetRef ref,
-    Proje proje,
-  ) async {
-    return showDialog<bool>(
-      context: context,
-      builder: (context) => AlertDialog(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-        title: const Row(
-          children: [
-            Icon(Icons.warning_amber_rounded, color: Colors.orange, size: 28),
-            SizedBox(width: 12),
-            Text('Projeyi Sil'),
-          ],
-        ),
-        content: Text(
-          '"${proje.projeAdi}" projesini silmek istediğinizden emin misiniz?',
-          style: const TextStyle(fontSize: 16),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context, false),
-            child: const Text('İptal'),
-          ),
-          ElevatedButton(
-            onPressed: () {
-              ref.read(projeAsyncProvider.notifier).deleteProje(proje.id);
-              Navigator.pop(context, true);
-            },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.red,
-              foregroundColor: Colors.white,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8),
-              ),
-            ),
-            child: const Text('Sil'),
-          ),
-        ],
-      ),
-    );
-  }
+
 }

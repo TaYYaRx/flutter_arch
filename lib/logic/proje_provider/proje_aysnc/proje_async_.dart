@@ -10,35 +10,81 @@ part 'proje_async_.g.dart';
 
 @riverpod
 class ProjeAsync extends _$ProjeAsync {
+  Timer? _syncTimer;
+
   @override
   FutureOr<List<Proje>> build() async {
-    // 1. Önce yerel veritabanındaki veriyi getir (Hızlı yükleme)
-    final localProjeler = ref.read(hiveServiceProvider.notifier).getAllListFromBox();
+    ref.onDispose(() => _syncTimer?.cancel());
 
-    // 2. Arka planda API'den güncel veriyi çek ve yereli güncelle
+    // 1. Yerel veriyi hemen döndür
+    final localProjeler = ref
+        .read(hiveServiceProvider.notifier)
+        .getAllListFromBox();
+
+    // 2. Periyodik sync başlat (opsiyonel)
+    _startPeriodicSync();
+
+    // 3. İlk senkronizasyonu tetikle
     _fetchFromRemote();
+
     return localProjeler;
   }
 
   Future<void> _fetchFromRemote() async {
-    print('Veriler getiriliyor');
+    if (state.isLoading && state.isRefreshing) return;
+
     try {
+      print('Veriler getiriliyor');
+      // Network kontrolü (opsiyonel - connectivity_plus paketi ile)
+      // if (!await _hasNetwork()) return;
+
       //Verileri Remote kaynaktan getir.
       final remoteData = await locator<ApiService>().fetchProjeler();
+
       //Verileri localDB'e ekle
-      await ref.read(hiveServiceProvider.notifier).cleanAndSaveListToBox(remoteData);
+      await ref
+          .read(hiveServiceProvider.notifier)
+          .cleanAndSaveListToBox(remoteData);
+
       state = AsyncData(remoteData);
-    } catch (e) {
+    } catch (e, stack) {
+      // Sadece local veri yoksa hata göster
+      final hasLocalData = ref
+          .read(hiveServiceProvider.notifier)
+          .getAllListFromBox()
+          .isNotEmpty;
+
+      if (!hasLocalData) {
+        state = AsyncError(e, stack);
+      }
+      print('Remote fetch hatası: $e');
+
       // Hata yönetimi (Opsiyonel: UI'a hata göstermek için)
       state = AsyncError(e, StackTrace.current);
     }
+  }
+
+  // Manuel refresh için
+  Future<void> refresh() async {
+    state = const AsyncLoading();
+    await _fetchFromRemote();
+  }
+
+  void _startPeriodicSync() {
+    _syncTimer = Timer.periodic(
+      const Duration(minutes: 5),
+      (_) => _fetchFromRemote(),
+    );
   }
 
   Future<void> updateProje(Proje proje) async {
     final previousState = await future;
 
     // 1. Adım: Yerel State'i Hemen Güncelle (Optimistic update)
-    final updatedProje = proje.copyWith(projeAdi: proje.projeAdi, projeDetay: proje.projeDetay);
+    final updatedProje = proje.copyWith(
+      projeAdi: proje.projeAdi,
+      projeDetay: proje.projeDetay,
+    );
     final updatedList = [
       for (final p in previousState)
         if (p.id == proje.id) updatedProje else p,
@@ -50,7 +96,9 @@ class ProjeAsync extends _$ProjeAsync {
       await locator<ApiService>().updateProje(updatedProje: updatedProje);
 
       // 3. Adım: Başarılıysa Local DB'yi de güncelle
-      await ref.read(hiveServiceProvider.notifier).updateItemFromBox(updatedProje);
+      await ref
+          .read(hiveServiceProvider.notifier)
+          .updateItemFromBox(updatedProje);
     } catch (e) {
       // Hata durumunda rollback
       print('Update error: $e');
@@ -75,6 +123,7 @@ class ProjeAsync extends _$ProjeAsync {
     } catch (e) {
       // Hata durumunda önceki state'e geri dön
       state = AsyncData(previousState);
+      rethrow;
     }
   }
 
