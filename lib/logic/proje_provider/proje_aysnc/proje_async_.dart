@@ -115,15 +115,16 @@ class ProjeAsync extends _$ProjeAsync {
     final previousState = await future;
 
     // 1. Adım: Yerel State'i Hemen Güncelle
-    final updatedList = previousState.where((p) => p.id != id).toList();
-    state = AsyncData(updatedList);
 
+    state = const AsyncLoading();
     try {
       // 2. Adım: API'ye gönder
       await locator<ApiService>().deleteProje(id: id);
+      await ref.read(hiveServiceProvider.notifier).deleteItemFromBox(id);
+      final updatedList = previousState.where((p) => p.id != id).toList();
 
       // 3. Adım: Başarılıysa Local DB'den de sil
-      await ref.read(hiveServiceProvider.notifier).deleteItemFromBox(id);
+      state = AsyncData(updatedList);
     } catch (e) {
       // Hata durumunda önceki state'e geri dön
       state = AsyncData(previousState);
