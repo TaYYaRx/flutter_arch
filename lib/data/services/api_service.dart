@@ -38,14 +38,30 @@ class ApiService {
     );
   }
 
-  Future<void> addProje({required Proje proje}) async {
+  Future<Proje> addProje({required Proje proje}) async {
     // Convert to JSON and remove _id if it's empty to let MongoDB generate it
     final jsonMap = proje.toJson();
     if (jsonMap['_id'] == null || jsonMap['_id'] == '') {
       jsonMap.remove('_id');
     }
     final body = jsonEncode(jsonMap);
-    await locator<ApiRepository>().addProje(jsonBody: body);
+
+    // Get the response containing the created project
+    final response = await locator<ApiRepository>().addProje(jsonBody: body);
+
+    print('🔍 Raw API response: $response');
+
+    // Parse the response to get the project with MongoDB-generated ID
+    final responseJson = json.decode(response) as Map<String, dynamic>;
+    print('🔍 Decoded JSON keys: ${responseJson.keys.toList()}');
+    print('🔍 Full decoded JSON: $responseJson');
+
+    // API returns the project under 'projeler' key
+    final projeJson = responseJson['projeler'] as Map<String, dynamic>;
+
+    print('🔍 Extracted proje JSON: $projeJson');
+
+    return Proje.fromJson(projeJson);
   }
 
   Future<void> deleteProje({required String id}) async {

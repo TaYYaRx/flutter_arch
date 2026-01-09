@@ -95,16 +95,23 @@ class ProjeAsync extends _$ProjeAsync {
   Future<void> addProje(Proje proje) async {
     final previousState = await future;
 
-    // 1. Adım: Yerel State'i Hemen Güncelle
+    // 1. Adım: Geçici olarak Yerel State'i Güncelle (optimistic update)
     final updatedList = [...previousState, proje];
     state = AsyncData(updatedList);
 
     try {
-      // 2. Adım: API'ye gönder
-      await locator<ApiService>().addProje(proje: proje);
+      // 2. Adım: API'ye gönder ve MongoDB'nin oluşturduğu ID'yi al
+      final createdProje = await locator<ApiService>().addProje(proje: proje);
 
-      // 3. Adım: Başarılıysa Local DB'ye de ekle
-      await ref.read(hiveServiceProvider.notifier).addItemToBox(proje);
+      // 3. Adım: State'i gerçek ID ile güncelle
+      final finalList = [
+        ...previousState,
+        createdProje, // MongoDB'nin ID'si ile
+      ];
+      state = AsyncData(finalList);
+
+      // 4. Adım: Başarılıysa Local DB'ye de gerçek ID ile ekle
+      await ref.read(hiveServiceProvider.notifier).addItemToBox(createdProje);
     } catch (e) {
       // Hata durumunda önceki state'e geri dön
       state = AsyncData(previousState);

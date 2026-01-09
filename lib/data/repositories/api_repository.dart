@@ -60,7 +60,7 @@ class ApiRepository {
     }
   }
 
-  Future<void> addProje({required String jsonBody}) async {
+  Future<String> addProje({required String jsonBody}) async {
     try {
       final uri = Uri.parse(baseUrlProjeler);
       final response = await http
@@ -75,7 +75,8 @@ class ApiRepository {
       print('Add response body: ${response.body}');
 
       if (response.statusCode == 200 || response.statusCode == 201) {
-        return;
+        return response
+            .body; // Return the response containing the created project with ID
       } else {
         throw Exception(
           'Failed to add project: ${response.statusCode} - ${response.body}',
