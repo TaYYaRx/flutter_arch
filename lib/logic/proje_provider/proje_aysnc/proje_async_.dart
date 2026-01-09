@@ -4,6 +4,7 @@ import 'package:flutter_arch/data/locator/locator.dart';
 import 'package:flutter_arch/data/models/projemodel/proje_model.dart';
 import 'package:flutter_arch/data/services/hive_service/hive_service.dart';
 import 'package:flutter_arch/data/services/api_service.dart';
+import 'package:flutter_arch/logic/hs_error_provider/hs_error.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'proje_async_.g.dart';
@@ -122,6 +123,10 @@ class ProjeAsync extends _$ProjeAsync {
   Future<void> deleteProje(String id) async {
     final previousState = await future;
 
+    // DELETE STATE → deleting
+    ref.read(deleteProjeStateProvider.notifier).state =
+        const DeleteState.deleting();
+
     // 1. Adım: Optimistic Update - Hemen UI'dan kaldır
     final updatedList = previousState.where((p) => p.id != id).toList();
     state = AsyncData(updatedList);
@@ -131,9 +136,28 @@ class ProjeAsync extends _$ProjeAsync {
 
       // 3. Adım: Başarılıysa Local DB'den de sil
       await ref.read(hiveServiceProvider.notifier).deleteItemFromBox(id);
+
+      // SUCCESS
+      ref.read(deleteProjeStateProvider.notifier).state =
+          const DeleteState.success();
+
+      // Reset to idle after success
+      Future.delayed(const Duration(seconds: 2), () {
+        ref.read(deleteProjeStateProvider.notifier).state =
+            const DeleteState.idle();
+      });
     } catch (e) {
       // Hata durumunda rollback - öğeyi geri ekle
       state = AsyncData(previousState);
+      ref.read(deleteProjeStateProvider.notifier).state = DeleteState.error(
+        'Silinemedi',
+      );
+
+      // Reset to idle after error
+      Future.delayed(const Duration(seconds: 3), () {
+        ref.read(deleteProjeStateProvider.notifier).state =
+            const DeleteState.idle();
+      });
       rethrow; // Hatayı UI'a ilet
     }
   }

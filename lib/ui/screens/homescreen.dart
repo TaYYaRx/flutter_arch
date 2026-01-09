@@ -22,7 +22,7 @@ class MyHomePageT extends StatelessWidget {
                 if (data.isEmpty) {
                   return Center(child: HSEmptyState());
                 } else {
-                  return HomeScreenListView(data: data, ref: ref);
+                  return HomeScreenListView(data: data);
                 }
               },
               error: (error, stackTrace) {
