@@ -121,7 +121,8 @@ class ProjeAsync extends _$ProjeAsync {
   }
 
   Future<void> deleteProje(String id) async {
-    final previousState = await future;
+    final previousState = state.value;
+    if (previousState == null) return;
 
     // DELETE STATE → deleting
     ref.read(deleteProjeStateProvider.notifier).state =
@@ -140,17 +141,11 @@ class ProjeAsync extends _$ProjeAsync {
       // SUCCESS
       ref.read(deleteProjeStateProvider.notifier).state =
           const DeleteState.success();
-
-      // Reset to idle after success
-      Future.delayed(const Duration(seconds: 2), () {
-        ref.read(deleteProjeStateProvider.notifier).state =
-            const DeleteState.idle();
-      });
     } catch (e) {
       // Hata durumunda rollback - öğeyi geri ekle
       state = AsyncData(previousState);
       ref.read(deleteProjeStateProvider.notifier).state = DeleteState.error(
-        'Silinemedi',
+        'Silinemedi : $e',
       );
 
       // Reset to idle after error

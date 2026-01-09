@@ -222,7 +222,7 @@ class HSService {
                               SnackBar(
                                 content: Text('Güncelleme hatası: $e'),
                                 backgroundColor: Colors.red,
-                                duration: const Duration(seconds: 10),
+                                duration: const Duration(seconds: 5),
                               ),
                             );
                           }

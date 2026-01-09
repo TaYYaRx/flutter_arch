@@ -33,7 +33,7 @@ class HomeScreenListView extends ConsumerWidget {
                 Text('Siliniyor...'),
               ],
             ),
-            duration: Duration(minutes: 1),
+            duration: Duration(seconds: 10),
             backgroundColor: Colors.blue,
           ),
         );
