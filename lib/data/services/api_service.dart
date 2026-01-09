@@ -25,7 +25,8 @@ class ApiService {
     } catch (e, s) {
       debugPrint('fetchProjeler error: $e');
       debugPrintStack(stackTrace: s);
-      return [];
+      // return [];
+      rethrow;
     }
   }
 

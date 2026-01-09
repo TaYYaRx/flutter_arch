@@ -10,22 +10,17 @@ part 'proje_async_.g.dart';
 
 @riverpod
 class ProjeAsync extends _$ProjeAsync {
-  Timer? _syncTimer;
-
   @override
   FutureOr<List<Proje>> build() async {
-    ref.onDispose(() => _syncTimer?.cancel());
-
-    // 1. Yerel veriyi hemen döndür
+    // Yerel veriyi hemen döndür
     final localProjeler = ref
         .read(hiveServiceProvider.notifier)
         .getAllListFromBox();
 
-    // 2. Periyodik sync başlat (opsiyonel) Yani 10 dk bir state güncellenecek
-    _startPeriodicSync();
-
-    // 3. İlk senkronizasyonu tetikle
-    _fetchFromRemote();
+    print('📦 Local DB\'den ${localProjeler.length} proje yüklendi');
+    print(
+      'ℹ️ Otomatik sync kapalı - Manuel refresh için refresh() metodunu kullanın',
+    );
 
     return localProjeler;
   }
@@ -34,33 +29,29 @@ class ProjeAsync extends _$ProjeAsync {
     if (state.isLoading && state.isRefreshing) return;
 
     try {
-      print('Veriler getiriliyor');
-      // Network kontrolü (opsiyonel - connectivity_plus paketi ile)
-      // if (!await _hasNetwork()) return;
+      print('🔄 Veriler API\'den getiriliyor...');
 
       //Verileri Remote kaynaktan getir.
       final remoteData = await locator<ApiService>().fetchProjeler();
+      print('✅ API başarılı: ${remoteData.length} proje alındı');
 
       //Verileri localDB'e ekle
       await ref
           .read(hiveServiceProvider.notifier)
           .cleanAndSaveListToBox(remoteData);
+      print('💾 Veriler local DB\'ye kaydedildi');
 
       state = AsyncData(remoteData);
+      print('✅ State güncellendi - Başarılı!');
     } catch (e, stack) {
-      // Sadece local veri yoksa hata göster
-      final hasLocalData = ref
-          .read(hiveServiceProvider.notifier)
-          .getAllListFromBox()
-          .isNotEmpty;
+      print('❌ Remote fetch hatası: $e');
+      print(
+        '📚 Stack trace: ${stack.toString().split('\n').take(3).join('\n')}',
+      );
 
-      if (!hasLocalData) {
-        state = AsyncError(e, stack);
-      }
-      print('Remote fetch hatası: $e');
-
-      // Hata yönetimi (Opsiyonel: UI'a hata göstermek için)
-      state = AsyncError(e, StackTrace.current);
+      // Her zaman hatayı göster - sunucu kapalıysa kullanıcı bilmeli
+      state = AsyncError(e, stack);
+      print('⚠️ State hata durumuna geçti');
     }
   }
 
@@ -68,13 +59,6 @@ class ProjeAsync extends _$ProjeAsync {
   Future<void> refresh() async {
     state = const AsyncLoading();
     await _fetchFromRemote();
-  }
-
-  void _startPeriodicSync() {
-    _syncTimer = Timer.periodic(
-      const Duration(minutes: 10),
-      (_) => _fetchFromRemote(),
-    );
   }
 
   Future<void> updateProje(Proje proje) async {

@@ -13,14 +13,14 @@ class DismissibleBackground extends StatelessWidget {
   final IconData icon;
   final String label;
   final Alignment alignment;
-  
+
   @override
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.only(bottom: 16),
       decoration: BoxDecoration(
         color: color,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(24),
       ),
       alignment: alignment,
       padding: const EdgeInsets.symmetric(horizontal: 24),
