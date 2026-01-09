@@ -2,11 +2,13 @@ import 'package:http/http.dart' as http;
 
 class ApiRepository {
   static const String baseUrlProjeler = 'http://192.168.1.4:3000/api/projeler';
-  static const Duration requestTimeout = Duration(seconds: 30);
+  static const Duration requestTimeout = Duration(seconds: 5);
 
   Future<String> fetchProjelerFromApi() async {
     try {
-      final response = await http.get(Uri.parse(baseUrlProjeler));
+      final response = await http
+          .get(Uri.parse(baseUrlProjeler))
+          .timeout(requestTimeout);
       if (response.statusCode == 200) {
         return response.body;
       } else {
@@ -29,11 +31,13 @@ class ApiRepository {
       print('Updating project: $id');
       print('Request body: $jsonBody');
 
-      final response = await http.put(
-        uri,
-        headers: {'Content-Type': 'application/json'},
-        body: jsonBody,
-      );
+      final response = await http
+          .put(
+            uri,
+            headers: {'Content-Type': 'application/json'},
+            body: jsonBody,
+          )
+          .timeout(requestTimeout);
 
       print('Update response status: ${response.statusCode}');
       print('Update response body: ${response.body}');
@@ -59,19 +63,27 @@ class ApiRepository {
   Future<void> addProje({required String jsonBody}) async {
     try {
       final uri = Uri.parse(baseUrlProjeler);
-      final response = await http.post(
-        uri,
-        headers: {'Content-Type': 'application/json'},
-        body: jsonBody,
-      );
+      final response = await http
+          .post(
+            uri,
+            headers: {'Content-Type': 'application/json'},
+            body: jsonBody,
+          )
+          .timeout(requestTimeout);
+
+      print('Add response status: ${response.statusCode}');
+      print('Add response body: ${response.body}');
 
       if (response.statusCode == 200 || response.statusCode == 201) {
         return;
       } else {
-        throw Exception('Failed to add project');
+        throw Exception(
+          'Failed to add project: ${response.statusCode} - ${response.body}',
+        );
       }
     } catch (e) {
-      throw Exception('ERROR: Network connection error ::: $e');
+      print('Add error: $e');
+      rethrow;
     }
   }
 
@@ -80,7 +92,7 @@ class ApiRepository {
       final uriDeleteRoute = '$baseUrlProjeler/$id';
       final uri = Uri.parse(uriDeleteRoute);
 
-      final response = await http.delete(uri);
+      final response = await http.delete(uri).timeout(requestTimeout);
 
       if (response.statusCode == 200 || response.statusCode == 204) {
         return;

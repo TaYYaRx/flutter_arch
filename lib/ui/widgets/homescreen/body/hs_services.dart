@@ -58,6 +58,7 @@ class HSService {
     );
     bool todoStatus = proje?.projeDetay.todoStatus ?? false;
     String? projeAdiError;
+    bool isLoading = false;
 
     showDialog(
       context: context,
@@ -161,100 +162,108 @@ class HSService {
               child: const Text('İptal'),
             ),
             ElevatedButton(
-              onPressed: () async {
-                final projeAdi = projeAdiController.text.trim();
-                final kuyuBoy = double.tryParse(kuyuBoyController.text) ?? 0;
-                final kuyuDerinlik =
-                    double.tryParse(kuyuDerinlikController.text) ?? 0;
+              onPressed: isLoading
+                  ? null
+                  : () async {
+                      final projeAdi = projeAdiController.text.trim();
+                      final kuyuBoy =
+                          double.tryParse(kuyuBoyController.text) ?? 0;
+                      final kuyuDerinlik =
+                          double.tryParse(kuyuDerinlikController.text) ?? 0;
 
-                // Validasyon
-                if (projeAdi.isEmpty) {
-                  setState(() => projeAdiError = 'Proje adı boş olamaz');
-                  return;
-                }
+                      // Validasyon
+                      if (projeAdi.isEmpty) {
+                        setState(() => projeAdiError = 'Proje adı boş olamaz');
+                        return;
+                      }
 
-                if (projeAdi.length < 3) {
-                  setState(
-                    () =>
-                        projeAdiError = 'Proje adı en az 3 karakter olmalıdır',
-                  );
-                  return;
-                }
+                      if (projeAdi.length < 3) {
+                        setState(
+                          () => projeAdiError =
+                              'Proje adı en az 3 karakter olmalıdır',
+                        );
+                        return;
+                      }
 
-                final projeDetay = ProjeDetay(
-                  todoStatus: todoStatus,
-                  kuyuBoy: kuyuBoy,
-                  kuyuDerinlik: kuyuDerinlik,
-                  createdAt: proje?.projeDetay.createdAt ?? DateTime.now(),
-                );
+                      // Loading başlat
+                      setState(() => isLoading = true);
 
-                if (isEdit) {
-                  try {
-                    final updatedProje = proje.copyWith(
-                      projeAdi: projeAdi,
-                      projeDetay: projeDetay,
-                    );
-                    await ref
-                        .read(projeAsyncProvider.notifier)
-                        .updateProje(updatedProje);
-                    if (context.mounted) {
-                      Navigator.pop(context); // Sadece başarılıysa kapat
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text('Proje başarıyla güncellendi'),
-                          backgroundColor: Colors.green,
-                        ),
+                      final projeDetay = ProjeDetay(
+                        todoStatus: todoStatus,
+                        kuyuBoy: kuyuBoy,
+                        kuyuDerinlik: kuyuDerinlik,
+                        createdAt:
+                            proje?.projeDetay.createdAt ?? DateTime.now(),
                       );
-                    }
-                  } catch (e) {
-                    if (context.mounted) {
-                      //widget hala ayaktaysa ....
-                      Navigator.pop(context);
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text('Güncelleme hatası: $e'),
-                          backgroundColor: Colors.red,
-                          duration: const Duration(seconds: 10),
-                        ),
-                      );
-                    }
-                  }
-                } else {
-                  try {
-                    // MongoDB will generate the ObjectId, so we pass empty string
-                    final newProje = Proje(
-                      projeAdi: projeAdi,
-                      projeDetay: projeDetay,
-                    );
-                    await ref
-                        .read(projeAsyncProvider.notifier)
-                        .addProje(
-                          newProje,
-                        ); //ŞAYET BURADA BİR HATA ÇIKARSA CATCH yakalayacak.
 
-                    if (context.mounted) {
-                      Navigator.pop(context);
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text('Proje başarıyla eklendi'),
-                          backgroundColor: Colors.green,
-                        ),
-                      );
-                    }
-                  } catch (e) {
-                    if (context.mounted) {
-                      Navigator.pop(context);
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text('Ekleme hatası: $e'),
-                          backgroundColor: Colors.red,
-                          duration: const Duration(seconds: 4),
-                        ),
-                      );
-                    }
-                  }
-                }
-              },
+                      if (isEdit) {
+                        try {
+                          final updatedProje = proje.copyWith(
+                            projeAdi: projeAdi,
+                            projeDetay: projeDetay,
+                          );
+                          await ref
+                              .read(projeAsyncProvider.notifier)
+                              .updateProje(updatedProje);
+                          if (context.mounted) {
+                            Navigator.pop(context); // Sadece başarılıysa kapat
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text('Proje başarıyla güncellendi'),
+                                backgroundColor: Colors.green,
+                              ),
+                            );
+                          }
+                        } catch (e) {
+                          if (context.mounted) {
+                            setState(() => isLoading = false); // Loading durdur
+                            Navigator.pop(context);
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text('Güncelleme hatası: $e'),
+                                backgroundColor: Colors.red,
+                                duration: const Duration(seconds: 10),
+                              ),
+                            );
+                          }
+                        }
+                      } else {
+                        try {
+                          // MongoDB will generate the ObjectId, so we pass empty string
+                          final newProje = Proje(
+                            projeAdi: projeAdi,
+                            projeDetay: projeDetay,
+                          );
+                          await ref
+                              .read(projeAsyncProvider.notifier)
+                              .addProje(
+                                newProje,
+                              ); //ŞAYET BURADA BİR HATA ÇIKARSA CATCH yakalayacak.
+
+                          if (context.mounted) {
+                            Navigator.pop(context);
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text('Proje başarıyla eklendi'),
+                                backgroundColor: Colors.green,
+                              ),
+                            );
+                          }
+                        } catch (e) {
+                          if (context.mounted) {
+                            setState(() => isLoading = false); // Loading durdur
+                            Navigator.pop(context);
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text('Ekleme hatası: $e'),
+                                backgroundColor: Colors.red,
+                                duration: const Duration(seconds: 4),
+                              ),
+                            );
+                          }
+                        }
+                      }
+                    },
               style: ElevatedButton.styleFrom(
                 backgroundColor: const Color(0xFF667eea),
                 foregroundColor: Colors.white,
@@ -262,7 +271,16 @@ class HSService {
                   borderRadius: BorderRadius.circular(8),
                 ),
               ),
-              child: Text(isEdit ? 'Güncelle' : 'Ekle'),
+              child: isLoading
+                  ? const SizedBox(
+                      height: 20,
+                      width: 20,
+                      child: CircularProgressIndicator(
+                        strokeWidth: 2,
+                        valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                      ),
+                    )
+                  : Text(isEdit ? 'Güncelle' : 'Ekle'),
             ),
           ],
         ),
