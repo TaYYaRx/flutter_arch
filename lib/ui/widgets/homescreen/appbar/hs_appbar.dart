@@ -10,6 +10,7 @@ class HomeScreenAppBar extends StatelessWidget implements PreferredSizeWidget {
     return AppBar(
       actions: [
         IconButton(
+          color: Colors.red,
           onPressed: () {
             var data = locator<ApiService>().fetchProjeler();
             data.then((value) => print(value.toString()));

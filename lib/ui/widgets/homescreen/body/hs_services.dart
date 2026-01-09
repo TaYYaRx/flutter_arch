@@ -147,7 +147,7 @@ class HSService {
                       todoStatus = value;
                     });
                   },
-                  activeColor: const Color(0xFF667eea),
+                  activeThumbColor: const Color(0xFF667eea),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
                     side: BorderSide(color: Colors.grey.shade300),

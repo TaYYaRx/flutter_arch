@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_arch/data/locator/locator.dart';
 import 'package:flutter_arch/data/models/projemodel/proje_model.dart';
-import 'package:flutter_arch/logic/hs_error_provider/hs_error.dart';
+
 import 'package:flutter_arch/logic/proje_provider/proje_aysnc/proje_async_.dart';
 import 'package:flutter_arch/ui/widgets/homescreen/body/hs_services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -161,54 +161,6 @@ class HSDismissible extends ConsumerWidget {
                             ),
                           ),
                         ],
-                      ),
-                    ],
-                  ),
-
-                  const SizedBox(height: 24),
-
-                  // --- PROGRESS BAR (iOS Slider Tarzı) ---
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      // Custom Rounded Progress Bar
-                      Container(
-                        height: 6,
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                          color: Colors.grey.withAlpha(70), // Arka plan track
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: FractionallySizedBox(
-                          alignment: Alignment.centerLeft,
-                          widthFactor: 0.60,
-                          child: Container(
-                            decoration: BoxDecoration(
-                              // iOS'te gradientler soldan sağa yumuşak geçişlidir
-                              gradient: const LinearGradient(
-                                colors: [Color(0xFF0A84FF), Color(0xFF5E5CE6)],
-                              ),
-                              borderRadius: BorderRadius.circular(10),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: const Color(0xFF0A84FF).withAlpha(90),
-                                  blurRadius: 8,
-                                  offset: const Offset(0, 2),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 8),
-                      // Yüzde Metni
-                      Text(
-                        '60%',
-                        style: TextStyle(
-                          color: CupertinoColors.black,
-                          fontSize: 12,
-                          fontWeight: FontWeight.bold,
-                        ),
                       ),
                     ],
                   ),
