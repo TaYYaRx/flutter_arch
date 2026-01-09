@@ -18,9 +18,10 @@ class ProjeAsync extends _$ProjeAsync {
         .getAllListFromBox();
 
     print('📦 Local DB\'den ${localProjeler.length} proje yüklendi');
-    print(
-      'ℹ️ Otomatik sync kapalı - Manuel refresh için refresh() metodunu kullanın',
-    );
+
+    // Arka planda remote veri çekmeyi başlat
+    Future.microtask(() => _fetchFromRemote());
+    print('🔄 Arka planda API sync başlatıldı');
 
     return localProjeler;
   }
@@ -114,19 +115,17 @@ class ProjeAsync extends _$ProjeAsync {
   Future<void> deleteProje(String id) async {
     final previousState = await future;
 
-    // 1. Adım: Yerel State'i Hemen Güncelle
-
-    state = const AsyncLoading();
+    // 1. Adım: Optimistic Update - Hemen UI'dan kaldır
+    final updatedList = previousState.where((p) => p.id != id).toList();
+    state = AsyncData(updatedList);
     try {
       // 2. Adım: API'ye gönder
       await locator<ApiService>().deleteProje(id: id);
-      await ref.read(hiveServiceProvider.notifier).deleteItemFromBox(id);
-      final updatedList = previousState.where((p) => p.id != id).toList();
 
       // 3. Adım: Başarılıysa Local DB'den de sil
-      state = AsyncData(updatedList);
+      await ref.read(hiveServiceProvider.notifier).deleteItemFromBox(id);
     } catch (e) {
-      // Hata durumunda önceki state'e geri dön
+      // Hata durumunda rollback - öğeyi geri ekle
       state = AsyncData(previousState);
       rethrow; // Hatayı UI'a ilet
     }

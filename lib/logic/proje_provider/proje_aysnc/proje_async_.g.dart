@@ -6,7 +6,7 @@ part of 'proje_async_.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$projeAsyncHash() => r'7b5237ac6ca86eb029fcf401be1ff0b5a351fe1b';
+String _$projeAsyncHash() => r'd026e2eb45d22b0d7a3f8ddfc2723a7273f8f906';
 
 /// See also [ProjeAsync].
 @ProviderFor(ProjeAsync)
@@ -22,4 +22,4 @@ final projeAsyncProvider =
 
 typedef _$ProjeAsync = AutoDisposeAsyncNotifier<List<Proje>>;
 // ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

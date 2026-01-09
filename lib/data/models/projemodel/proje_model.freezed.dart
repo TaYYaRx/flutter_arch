@@ -20,6 +20,7 @@ Proje _$ProjeFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$Proje {
+// ignore: invalid_annotation_target
   @HiveField(0)
   @JsonKey(name: '_id', includeIfNull: false)
   String get id => throw _privateConstructorUsedError;
@@ -28,12 +29,8 @@ mixin _$Proje {
   @HiveField(2)
   ProjeDetay get projeDetay => throw _privateConstructorUsedError;
 
-  /// Serializes this Proje to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-
-  /// Create a copy of Proje
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   $ProjeCopyWith<Proje> get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -60,8 +57,6 @@ class _$ProjeCopyWithImpl<$Res, $Val extends Proje>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of Proje
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -85,8 +80,6 @@ class _$ProjeCopyWithImpl<$Res, $Val extends Proje>
     ) as $Val);
   }
 
-  /// Create a copy of Proje
-  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $ProjeDetayCopyWith<$Res> get projeDetay {
@@ -120,8 +113,6 @@ class __$$ProjeImplCopyWithImpl<$Res>
       _$ProjeImpl _value, $Res Function(_$ProjeImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of Proje
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -157,6 +148,7 @@ class _$ProjeImpl implements _Proje {
   factory _$ProjeImpl.fromJson(Map<String, dynamic> json) =>
       _$$ProjeImplFromJson(json);
 
+// ignore: invalid_annotation_target
   @override
   @HiveField(0)
   @JsonKey(name: '_id', includeIfNull: false)
@@ -185,13 +177,11 @@ class _$ProjeImpl implements _Proje {
                 other.projeDetay == projeDetay));
   }
 
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, id, projeAdi, projeDetay);
 
-  /// Create a copy of Proje
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$ProjeImplCopyWith<_$ProjeImpl> get copyWith =>
@@ -215,7 +205,7 @@ abstract class _Proje implements Proje {
 
   factory _Proje.fromJson(Map<String, dynamic> json) = _$ProjeImpl.fromJson;
 
-  @override
+  @override // ignore: invalid_annotation_target
   @HiveField(0)
   @JsonKey(name: '_id', includeIfNull: false)
   String get id;
@@ -225,11 +215,8 @@ abstract class _Proje implements Proje {
   @override
   @HiveField(2)
   ProjeDetay get projeDetay;
-
-  /// Create a copy of Proje
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$ProjeImplCopyWith<_$ProjeImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
