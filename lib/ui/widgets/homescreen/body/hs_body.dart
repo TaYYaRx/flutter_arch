@@ -42,6 +42,9 @@ class _HomeScreenListViewState extends ConsumerState<HomeScreenListView> {
       final messenger = ScaffoldMessenger.of(context);
 
       if (next.status == DeleteStatus.deleting) {
+        // Önceki tüm snackbar'ları temizle
+        messenger.clearSnackBars();
+        // Yeni snackbar göster
         messenger.showSnackBar(
           const SnackBar(
             content: Row(
@@ -65,25 +68,33 @@ class _HomeScreenListViewState extends ConsumerState<HomeScreenListView> {
       }
 
       if (next.status == DeleteStatus.success) {
-        messenger.removeCurrentSnackBar();
-        messenger.showSnackBar(
-          const SnackBar(
-            content: Text('Başarıyla silindi'),
-            backgroundColor: Colors.green,
-            duration: Duration(seconds: 2),
-          ),
-        );
+        // Önceki tüm snackbar'ları temizle
+        messenger.clearSnackBars();
+        // Kısa bir delay ile yeni snackbar göster
+        Future.delayed(const Duration(milliseconds: 100), () {
+          messenger.showSnackBar(
+            const SnackBar(
+              content: Text('Başarıyla silindi'),
+              backgroundColor: Colors.green,
+              duration: Duration(seconds: 2),
+            ),
+          );
+        });
       }
 
       if (next.status == DeleteStatus.error) {
-        messenger.removeCurrentSnackBar();
-        messenger.showSnackBar(
-          SnackBar(
-            content: Text(next.message ?? 'Silme başarısız'),
-            backgroundColor: Colors.red,
-            duration: const Duration(seconds: 3),
-          ),
-        );
+        // Önceki tüm snackbar'ları temizle
+        messenger.clearSnackBars();
+        // Kısa bir delay ile yeni snackbar göster
+        Future.delayed(const Duration(milliseconds: 100), () {
+          messenger.showSnackBar(
+            SnackBar(
+              content: Text(next.message ?? 'Silme başarısız'),
+              backgroundColor: Colors.red,
+              duration: const Duration(seconds: 3),
+            ),
+          );
+        });
       }
     });
     final asyncProje = ref.watch(projeAsyncProvider);

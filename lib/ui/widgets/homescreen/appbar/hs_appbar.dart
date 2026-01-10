@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_arch/data/locator/locator.dart';
-import 'package:flutter_arch/data/services/api_service.dart';
+
 
 class HomeScreenAppBar extends StatelessWidget implements PreferredSizeWidget {
   const HomeScreenAppBar({super.key});
@@ -8,16 +7,6 @@ class HomeScreenAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      actions: [
-        IconButton(
-          color: Colors.red,
-          onPressed: () {
-            var data = locator<ApiService>().fetchProjeler();
-            data.then((value) => print(value.toString()));
-          },
-          icon: Icon(Icons.refresh),
-        ),
-      ],
       elevation: 0,
       flexibleSpace: Container(
         decoration: BoxDecoration(
